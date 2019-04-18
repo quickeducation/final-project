@@ -16,7 +16,7 @@ Johnson, Roger T., and David W. Johnson. "Active learning: Cooperation in the cl
 
 ### Screen #1
 
-https://i.imgur.com/pIFNNKb.png
+![alt text](https://i.imgur.com/pIFNNKb.png "Screen 1")
 
 - The “Log in” button will lead the user to the corresponding login page (Screen 2) where they can input their credentials to access their problems sets and view their standing on the leaderboard. The presence of this button on middle of the landing page allows for users to easily navigate to the login page if they choose to.
 - The “Create New Account” button leads to the account creation page (Screen 3) where new users can create accounts. This allows for new users to create problem sets, save them, and also put themselves on leaderboards after they have completed a problem set.
