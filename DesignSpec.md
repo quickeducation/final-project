@@ -85,9 +85,9 @@ The addition of showing how many points the user has on the right hand side also
 - For the same reasons stated on page 7 the navigation bar along with account information is provided at the top of the screen. 
 - This screen allows users to answer the questions of an existing problem set. 
 - The layout of this screen is similar to the screen on page 8 because a similar design makes our application more consistent and easier to understand. 
-- The title of the problem set currently being worked on is stated at the top. 
+- The title of the problem set currently being worked on is stated at the top. This title is clearly indicated to show what the user is working on. 
 - The titles showing the users that the questions and answers are on separate columns are still present to be consistent with the screen on page 8. 
-- The questions are still on the left side of the screen and have their corresponding answer boxes on the right side of the screen. 
+- The questions are still on the left side of the screen and have their corresponding answer boxes on the right side of the screen. This placement is to ensure visual clarity so the user knows what problem/answer correspond to each other. 
 - All the question and answer pairs are numbered because users have to see how many questions there are and it allows them to know which question they are working on. 
 - On the bottom right of the screen there is a submit your answers button which will submit all the answers the user has after they finish answering questions. It lets users understand that their answers have been successfully recorded for the corresponding questions. They will then be redirected to the screen on page 11.
 
