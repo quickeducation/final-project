@@ -27,9 +27,9 @@ Johnson, Roger T., and David W. Johnson. "Active learning: Cooperation in the cl
 ### Screen #2
 ![alt text](https://i.imgur.com/2rf2klT.png "Screen 2")
 - The logo in the top left-hand corner will be a static image of the website’s logo and will not link to anything. This is because we already have a home button to redirect to our home page and the logo can just stay an image.
-- The ‘Home’ button will direct the user back to the home screen specced in page 2. This allows the user to navigate easily back to the homepage.
-- The ‘Create Account’ button will direct the user to the Create Account page specified on page 4. This will allow users to navigate to creating an account if they are not already signed in, in which case they would not need to create an account.
-- The ‘Leaderboards’ button will direct the user to the leaderboards page specified in page 6. This will allow users to easily see the leaderboard whenever they wish.
+- The ‘Home’ button will direct the user back to the home screen specced on screen 1. This allows the user to navigate easily back to the homepage.
+- The ‘Create Account’ button will direct the user to the Create Account page specified on screen 3. This will allow users to navigate to creating an account if they are not already signed in, in which case they would not need to create an account.
+- The ‘Leaderboards’ button will direct the user to the leaderboards page specified on screen 5. This will allow users to easily see the leaderboard whenever they wish.
 - The ‘Username’ field will be an entry box will be a plain-text input box. This will allow the user to input UTF-8 text less than 50 characters to be submitted to our backend.
 - The Password field will be an entry box will be a plain-text input box. This will allow the user to input UTF-8 text less than 50 characters to be submitted to our backend.
 - The ‘Login’ button will validate the user input for logging in by checking the hashed information in our backend and will continue to their account. If not valid, it will raise an error from a browser dialog that says that the account does not exist. If there is no text in either the username or password fields, the login button will not be pressable.
@@ -37,25 +37,24 @@ Johnson, Roger T., and David W. Johnson. "Active learning: Cooperation in the cl
 
 ### Screen #3
 ![alt text](https://i.imgur.com/ABQjpde.png "Screen 3")
-- The navigation bar will follow the same design with the same reasons as specified on page 3 except for the “Create Account” button will now be a “Log In” button. This provides the user a pathway to log in if they already have an account.
+- The navigation bar will follow the same design with the same reasons as specified on screen 2 except for the “Create Account” button will now be a “Log In” button. This provides the user a pathway to log in if they already have an account.
 - This screen features a centered header which states “Create Account” which lets the user know the purpose of the following inputs.
 - The username and password inputs are centered alongside a label for each of them. This is to minimize confusion for their purpose.
-- Below the inputs is a rounded button which helps signify that it is a button. When clicking the button there are three scenarios. The first is that someone else already has the username that they tried, in which case an error from a browser dialog will let them know that username has already been chosen. If they fail to enter in a password or username, an error from a browser dialog would let them know that they missed the field or both of them. If there is no user with the same username and they provided a password an account will be created for this user and they will be directed to the next screen (page 5).
-- There is another pathway for the user if they recognize that they already have an account which is at the bottom. Here there is a label beside a login button which will redirect them to the login screen on page 3.
+- Below the inputs is a rounded button which helps signify that it is a button. When clicking the button there are three scenarios. The first is that someone else already has the username that they tried, in which case an error from a browser dialog will let them know that username has already been chosen. If they fail to enter in a password or username, an error from a browser dialog would let them know that they missed the field or both of them. If there is no user with the same username and they provided a password an account will be created for this user and they will be directed to the next screen (screen 4).
+- There is another pathway for the user if they recognize that they already have an account which is at the bottom. Here there is a label beside a login button which will redirect them to the login screen on screen 2.
 
 ### Screen #4
 ![alt text](https://i.imgur.com/1hJXMPs.png "Screen 4")
 - The logo in the top left-hand corner will be a static image of the website’s logo and will not link to anything. This is because we already have a home button to redirect to our home page and the logo can just stay an image.
-- The ‘Home’ button will direct the user back to the home screen specced in page 2. This allows the user to navigate easily back to the homepage.
-- The ‘Leaderboards’ button will direct the user to the leaderboards page specified in page 6. This will allow users to easily see the leaderboard whenever they wish.
+- The ‘Leaderboards’ button will direct the user to the leaderboards page specified on screen 5. This will allow users to easily see the leaderboard whenever they wish.
 - The ‘Example Problem Set Title…’ box will be an input box that will hold the title of the problem set that was just created as specified in page 8.
 - The ‘Example link’ box will be a textbox that is read and copy only, and will hold the website link to the problem set that was just created as specified in page 9.
 - The ‘Test Yourself’ box will be a button that will link directly back to the problem set linked above. 
-- The ‘Create Another Problem Set’ box will be a button that will link directly to the problem set creation page specified in page 8.
+- The ‘Create Another Problem Set’ box will be a button that will link directly to the problem set creation page specified in screen 7.
 
 ### Screen #5
 ![alt text](https://i.imgur.com/am5ivav.png "Screen 5")
-- The ‘My Account’ button will direct the user to the My Account page specified in page 7. This will allow users to navigate to their account page to look at their account details. This will only show when users are already logged into their account.
+- The ‘My Account’ button will direct the user to the My Account page specified in screen 6. This will allow users to navigate to their account page to look at their account details. This will only show when users are already logged into their account.
 - The Log out button will allow the user to log out of their account at any time to ensure that no one can use their account when on a shared device. This will only show when users are already logged into their account.
 - This page displays the overall leaderboards of all accounts using our platform. This will allow users to easily see how they stack up with other people using our website. This page will add a sense of accomplishment for the users as well as a sense of competitiveness which will help motivate them to continue solving problem sets.
 - The simple ranking system from best to worst is something that is easy to understand and will allow users to easily pick up on any changes in position.
@@ -71,7 +70,7 @@ The addition of showing how many points the user has on the right hand side also
 
 ### Screen #7
 ![alt text](https://i.imgur.com/AuJsgqI.png "Screen 7")
-- For the same reasons stated on page 7 the navigation bar along with account information is provided at the top of the screen. 
+- For the same reasons stated on screen 6 the navigation bar along with account information is provided at the top of the screen. 
 - This screen allows users to create new problem sets containing various questions and answers. 
 - There is an input box for users to put the title of their question set. It is a textbox and centered at the top of the screen so users can quickly title their problem set. 
 - There are titles showing that the questions and answers are in separate columns because users may get confused on which box to input the question or answer. This lets users be more confusing and keeps the problem set organized. 
@@ -82,14 +81,14 @@ The addition of showing how many points the user has on the right hand side also
 
 ### Screen #8
 ![alt text](https://i.imgur.com/Ql2ZPGT.png "Screen 8")
-- For the same reasons stated on page 7 the navigation bar along with account information is provided at the top of the screen. 
+- For the same reasons stated on screen 6 the navigation bar along with account information is provided at the top of the screen. 
 - This screen allows users to answer the questions of an existing problem set. 
-- The layout of this screen is similar to the screen on page 8 because a similar design makes our application more consistent and easier to understand. 
+- The layout of this screen is similar to the screen on screen 7 because a similar design makes our application more consistent and easier to understand. 
 - The title of the problem set currently being worked on is stated at the top. This title is clearly indicated to show what the user is working on. 
-- The titles showing the users that the questions and answers are on separate columns are still present to be consistent with the screen on page 8. 
+- The titles showing the users that the questions and answers are on separate columns are still present to be consistent with the screen on screen 7. 
 - The questions are still on the left side of the screen and have their corresponding answer boxes on the right side of the screen. This placement is to ensure visual clarity so the user knows what problem/answer correspond to each other. 
 - All the question and answer pairs are numbered because users have to see how many questions there are and it allows them to know which question they are working on. 
-- On the bottom right of the screen there is a submit your answers button which will submit all the answers the user has after they finish answering questions. It lets users understand that their answers have been successfully recorded for the corresponding questions. They will then be redirected to the screen on page 11.
+- On the bottom right of the screen there is a submit your answers button which will submit all the answers the user has after they finish answering questions. It lets users understand that their answers have been successfully recorded for the corresponding questions. They will then be redirected to the screen on screen 10.
 
 ### Screen #9
 ![alt text](https://i.imgur.com/kggWGrv.png "Screen 9")
@@ -102,11 +101,11 @@ The addition of showing how many points the user has on the right hand side also
 
 ### Screen #10
 ![alt text](https://i.imgur.com/A4vVc7E.png "Screen 10")
-- The navigation bar will stay the same throughout each of the pages after a user has logged in. Home directs to page 5, “My Account” redirects to page 7, and logging out would redirect to page 2, while logging out the user.
+- The navigation bar will stay the same throughout each of the pages after a user has logged in. Home directs to screen 4, “My Account” redirects to screen 6, and logging out would redirect to screen 1, while logging out the user.
 - The title of the problem set the user just created will be centered at the top keeping the consistency that we had and reminded the user what this score is related to. 
 - This page will display the percentage of answers they were correct on as well as a score which would contribute to their score on the leaderboard.
 - The try again button allows the user to immediately try to improve their score. By providing them feedback immediately and giving them a chance to improve their score we aim to make them want to master this quiz. 
-- There also is an option to create a problem set from this screen. This will redirect them to page 8. This allows users to more efficiently complete the different purposes of our solution, creating problem sets and answering them.
+- There also is an option to create a problem set from this screen. This will redirect them to screen 7. This allows users to more efficiently complete the different purposes of our solution, creating problem sets and answering them.
 
 ### Screen #11
 ![alt text](https://i.imgur.com/FVgb8sB.png "Screen 11")
