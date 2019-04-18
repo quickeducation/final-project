@@ -6,6 +6,7 @@ In an interview with a local Seattle high school student, they mentioned that th
 
 After conducting additional interviews with local Seattle students that had experience using online learning tools like Kahoot! and Quizlet, we found that most students found them either too difficult to get started with or not personalized enough for individualized learning. Students with experience using Kahoot! only found this tool most useful in personal classroom settings that although fun, did not personalize a learning environment dedicated to improving academic achievement. Interviewees with experience using Quizlet mentioned that although a popular tool, wasn’t easy to get started with. In this case, tools like Quizlet and Kahoot! may not be accessible to all students regardless of their proficiency with technology. 
 
+### References
 
 Liberatore, Matthew W. "Improved student achievement using personalized online homework." Chem. Eng. Educ 45.3 (2011): 184-190.
 
