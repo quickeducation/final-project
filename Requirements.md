@@ -7,10 +7,12 @@
 - All error popups must display text indicating the relevant error that occured.
 
 # Home Page Requirements:
-- The home page must contain an empty input field that accepts UTF-8 characters to navigate to the do the problem set page.
-- Users must be able to successfully access a problem set after generating a link for the problem set and inputting it into the input field.
-- The homepage must contain a button labeled as “view leaderboards” that when clicked, redirects the user to the leaderboards page ignoring if they are logged in or not.
-- The user must not be able to access a problem set from a given link unless they are logged in. After pressing the enter key and a valid problem set link is input into the text field, if the user is not logged in, they are redirected to the login page.
+- The home page must contain an empty input field that accepts UTF-8 characters to navigate to the do the problem set page if the user is logged in.
+- Users must be able to successfully access a problem set after generating a link for the problem set and inputting it into the input field if the user is logged in.
+- The homepage must contain a button labeled as “view leaderboards” that when clicked, redirects the user to the leaderboards page if the user is logged in.
+- The user must not be able to access a problem set from a given link unless they are logged in. 
+- The homepage must display login and create new account buttons if they are not logged in. 
+- If the user is not logged in, the login and create new account buttons must redirect the user to the corresponding login and create new account pages if clicked on. 
 
 # Navigation Bar Requirements:
 - Users must be able to access global leaderboards based on problem set completions through the leaderboards button on the navigation bar, even if they are not logged in.
@@ -52,7 +54,7 @@
 - All the information within the database that is related to that account including Username, Account ID, Password, E-mail, and Points Accrued must be deleted from the database.
 
 # Create Problem Set Page:
-- The problem set webpage must allow and require users to create a title that is less than 60 UTF-8 characters by typing UTF-8 input into the empty create title text input field.
+- The problem set webpage must allow and require users to create a title that is less than 60 UTF-8 characters by typing UTF-8 character input into the empty create title text input field.
 - The problem set webpage must prevent users from creating a problem set without any UTF-8 characters in the title input field by displaying an error popup within the same browser window
 - The problem set webpage must require users to create questions and answers that are less than 60 UTF-8 characters in their corresponding initially empty input fields. The user is unable to add UTF-8 characters to the input field if the input field contains 60 characters. 
 - The problem set webpage must display a new question and answer empty input field directly below the last question and answer field row when clicking the “New Question” button.
@@ -64,7 +66,7 @@
 
 
 # Created Problem Set Page:
-- The created problem set page must display a uniquely generated problem set link in UTF-8 for the user to copy and share to others. 
+- The created problem set page must display a uniquely generated (randomly generated 6 character string) problem set link in UTF-8 character for the user to copy and share to others. 
 - The created problem set page must display a button labeled as “Test Yourself” and redirects the user to the do the problem set page corresponding to the problem set if the user clicks on it.
 - The created problem set page must display a button labeled as “Create Another Problem Set” and redirects the user to the do the create problem set page the user clicks on it.
 
