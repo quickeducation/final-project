@@ -1,12 +1,3 @@
-/*Name: Zach Palmer
-Date: 10/25/17
-Section: CSE 154 AI
-
-This is the fifteen.js page for the second homework assignment. This script
-creates the tiles that go onto the game board and appends them to the DOM,
-shuffles the tiles around randomly for new games, and handles all logic
-for which tiles can move and where.
-*/
 "use strict";
 // Module pattern for encapsulation
 (function() {
@@ -19,119 +10,133 @@ for which tiles can move and where.
 	  messagingSenderId: "244317548908",
 	  appId: "1:244317548908:web:3bde08538be9dda7"
 	};
-    /**
-     * Handles the sign in button press.
-     */
-    function toggleSignIn() {
-      if (firebase.auth().currentUser) {
-        // [START signout]
-        firebase.auth().signOut();
-        // [END signout]
-      } else {
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
-        if (email.length < 4) {
-          alert('Please enter an email address.');
-          return;
-        }
-        if (password.length < 4) {
-          alert('Please enter a password.');
-          return;
-        }
-        // Sign in with email and pass.
-        // [START authwithemail]
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // [START_EXCLUDE]
-          if (errorCode === 'auth/wrong-password') {
-            alert('Wrong password.');
-          } else {
-            alert(errorMessage);
-          }
-          console.log(error);
-          document.getElementById('quickstart-sign-in').disabled = false;
-          // [END_EXCLUDE]
-        });
-        // [END authwithemail]
-      }
-      //document.getElementById('quickstart-sign-in').disabled = true;
-    }
-    /**
-     * Handles the sign up button press.
-     */
-    function handleSignUp() {
+
+  function $(id){
+      return document.getElementById(id);
+  }
+  /**
+   * Handles the sign in button press.
+   */
+  function toggleSignIn() {
+    if (firebase.auth().currentUser) {
+      // [START signout]
+      firebase.auth().signOut();
+      // [END signout]
+    } else {
       var email = document.getElementById('email').value;
       var password = document.getElementById('password').value;
-      if (email.length < 1) {
+      if (email.length < 4) {
         alert('Please enter an email address.');
         return;
       }
-      if (password.length < 1) {
+      if (password.length < 4) {
         alert('Please enter a password.');
         return;
       }
       // Sign in with email and pass.
-      // [START createwithemail]
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      // [START authwithemail]
+      firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         // [START_EXCLUDE]
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
+        if (errorCode === 'auth/wrong-password') {
+          alert('Wrong password.');
         } else {
           alert(errorMessage);
         }
         console.log(error);
-        // [END_EXCLUDE]
-      });
-      // [END createwithemail]
-    }
-    /**
-     * initApp handles setting up UI event listeners and registering Firebase auth listeners:
-     *  - firebase.auth().onAuthStateChanged: This listener is called when the user is signed in or
-     *    out, and that is where we update the UI.
-     */
-    function initApp() {
-      // Listening for auth state changes.
-      // [START authstatelistener]
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-          var displayName = user.displayName;
-          var email = user.email;
-          var emailVerified = user.emailVerified;
-          var photoURL = user.photoURL;
-          var isAnonymous = user.isAnonymous;
-          var uid = user.uid;
-          var providerData = user.providerData;
-          // [START_EXCLUDE]
-          document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
-          document.getElementById('quickstart-sign-in').textContent = 'Sign out';
-          document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
-          if (!emailVerified) {
-            document.getElementById('quickstart-verify-email').disabled = false;
-          }
-          // [END_EXCLUDE]
-        } else {
-          // User is signed out.
-          // [START_EXCLUDE]
-          document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
-          document.getElementById('quickstart-sign-in').textContent = 'Sign in';
-          document.getElementById('quickstart-account-details').textContent = 'null';
-          // [END_EXCLUDE]
-        }
-        // [START_EXCLUDE silent]
         document.getElementById('quickstart-sign-in').disabled = false;
         // [END_EXCLUDE]
       });
-      // [END authstatelistener]
-      document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
-      document.getElementById('quickstart-sign-up').addEventListener('click', handleSignUp, false);
+      // [END authwithemail]
     }
-    window.onload = function() {
-      initApp();
-    };
+    //document.getElementById('quickstart-sign-in').disabled = true;
+  }
+  /**
+   * Handles the sign up button press.
+   */
+  function handleSignUp() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    if (email.length < 1) {
+      alert('Please enter an email address.');
+      return;
+    }
+    if (password.length < 1) {
+      alert('Please enter a password.');
+      return;
+    }
+    // Sign in with email and pass.
+    // [START createwithemail]
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // [START_EXCLUDE]
+      if (errorCode == 'auth/weak-password') {
+        alert('The password is too weak.');
+      } else {
+        alert(errorMessage);
+      }
+      console.log(error);
+      // [END_EXCLUDE]
+    });
+    firebase.database().ref('users/' + firebase.auth().currentUser).set({
+      email: email,
+      score : 0
+    });
+    // [END createwithemail]
+  }
+  /**
+   * The ID of the currently signed-in User. We keep track of this to detect Auth state change events that are just
+   * programmatic token refresh but not a User status change.
+   */
+  var currentUID;
+
+  /**
+   * Triggers every time there is a change in the Firebase auth state (i.e. user signed-in or user signed out).
+   */
+  function onAuthStateChanged(user) {
+    // We ignore token refresh events.
+    if (user && currentUID === user.uid) {
+      return;
+    }
+    if (user) {
+        // User is signed in.
+        currentUID = user.uid;
+        var displayName = user.displayName;
+        var email = user.email;
+        var emailVerified = user.emailVerified;
+        var photoURL = user.photoURL;
+        var isAnonymous = user.isAnonymous;
+        var uid = user.uid;
+        var providerData = user.providerData;
+        // [START_EXCLUDE]
+        $('quickstart-sign-in-status').textContent = 'Signed in';
+        $('quickstart-sign-in').textContent = 'Sign out';
+        $('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+        //writeUserData(user.uid, user.displayName, user.email, user.photoURL);
+        //startDatabaseQueries();
+        // [END_EXCLUDE]
+      } else {
+        // User is signed out.
+        // [START_EXCLUDE]
+        currentUID = null;
+        $('quickstart-sign-in-status').textContent = 'Signed out';
+        $('quickstart-sign-in').textContent = 'Sign in';
+        $('quickstart-account-details').textContent = 'null';
+        // [END_EXCLUDE]
+      }
+    // [START_EXCLUDE silent]
+    $('quickstart-sign-in').disabled = false;
+    // [END_EXCLUDE]
+  }
+  window.onload = function() {
+    $('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
+    $('quickstart-sign-up').addEventListener('click', handleSignUp, false);
+
+    // Listen for auth state changes
+    firebase.auth().onAuthStateChanged(onAuthStateChanged);
+  };
 })();
