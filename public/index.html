@@ -37,24 +37,27 @@ limitations under the License.
       <button class="mdl-button mdl-js-button mdl-button--raised" id="quickstart-sign-up" name="signup">Sign Up</button>
       &nbsp;&nbsp;&nbsp;
 
-      <form id="message-form" action="#">
+      <form id="set-form" action="#">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
           <input class="mdl-textfield__input" type="text" id="new-post-title">
           <label class="mdl-textfield__label" for="new-post-title">Set title...</label>
         </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <textarea class="mdl-textfield__input" rows="3" id="new-post-message"></textarea>
-          <label class="mdl-textfield__label" for="new-post-message">Set question...</label>
-        </div>
-        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-          <textarea class="mdl-textfield__input" rows="3" id="new-post-message"></textarea>
-          <label class="mdl-textfield__label" for="new-post-message">Set answer...</label>
-        </div>
         <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-          Add post
+          Add set
         </button>
+      </form>
+
+      <form id="qa-form" action="#">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <textarea class="mdl-textfield__input" rows="3" id="new-question"></textarea>
+          <label class="mdl-textfield__label" for="new-question">Set question...</label>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <textarea class="mdl-textfield__input" rows="3" id="new-answer"></textarea>
+          <label class="mdl-textfield__label" for="new-answer">Set answer...</label>
+        </div>
         <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-          Add question
+          Add question-answer
         </button>
       </form>
 
