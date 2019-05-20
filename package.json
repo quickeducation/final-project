@@ -1,0 +1,15 @@
+{
+  "name": "firebasetest",
+  "version": "1.0.0",
+  "description": "testing firebase with npm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^6.0.2",
+    "firebaseui": "^4.0.0"
+  }
+}
