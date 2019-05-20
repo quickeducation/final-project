@@ -89,6 +89,57 @@
     // [END createwithemail]
   }
   /**
+   * Writes the user's data to the database.
+   */
+  // [START basic_write]
+  function writeUserData(userId, email) {
+    firebase.database().ref('users/' + userId).set({
+      email: email,
+      score : 0
+    });
+  }
+  // [END basic_write]
+
+  /**
+   * Saves a new post to the Firebase DB.
+   */
+  // [START write_fan_out]
+  function writeNewSet(uid, email, title, body) {
+    // A post entry.
+    var setData = {
+      author: email,
+      uid: uid,
+      body: body,
+      title: title
+    };
+
+    // Get a key for a new Post.
+    var newSetKey = firebase.database().ref().child('sets').push().key;
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+    updates['/sets/' + newSetKey] = setData;
+    updates['/user-sets/' + uid + '/' + newSetKey] = setData;
+
+    return firebase.database().ref().update(updates);
+  }
+  // [END write_fan_out]
+  /**
+   * Creates a new post for the current user.
+   */
+  function newSetForCurrentUser(title, text) {
+    // [START single_value_read]
+    var userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+      // [START_EXCLUDE]
+      return writeNewSet(firebase.auth().currentUser.uid, firebase.auth().currentUser.email,
+        title, text);
+      // [END_EXCLUDE]
+    });
+    // [END single_value_read]
+  }
+  /**
    * The ID of the currently signed-in User. We keep track of this to detect Auth state change events that are just
    * programmatic token refresh but not a User status change.
    */
@@ -116,7 +167,7 @@
         $('quickstart-sign-in-status').textContent = 'Signed in';
         $('quickstart-sign-in').textContent = 'Sign out';
         $('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
-        //writeUserData(user.uid, user.displayName, user.email, user.photoURL);
+        writeUserData(user.uid, user.email);
         //startDatabaseQueries();
         // [END_EXCLUDE]
       } else {
@@ -138,5 +189,18 @@
 
     // Listen for auth state changes
     firebase.auth().onAuthStateChanged(onAuthStateChanged);
+
+    $('message-form').onsubmit = function(e) {
+      e.preventDefault();
+      var text = $('new-post-message').value;
+      var title = $('new-post-title').value;
+      if (text && title) {
+        newSetForCurrentUser(title, text).then(function() {
+          //myPostsMenuButton.click();
+        });
+        $('new-post-message').value = '';
+        $('new-post-title').value = '';
+      }
+    };
   };
 })();
