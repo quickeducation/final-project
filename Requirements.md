@@ -5,6 +5,7 @@
 - Every page on the website must render a navigation bar at the top of the web page
 - All error popups must allow users to close them by clicking on the “OK” button.
 - All error popups must display text indicating the relevant error that occured.
+- All performance related requirements will be verified on Team Lab computers in MGH 440. 
 
 # Home Page Requirements:
 - The home page must contain an empty input field that only accepts UTF-8 characters to navigate to the do the problem set page if the user is logged in.
