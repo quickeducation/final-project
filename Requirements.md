@@ -39,11 +39,11 @@
 
 # My Account Page:
 - The information displayed on the my account page must display information (E-mail, and total Points accrued) relating to the currently logged in account via the browser session
-- The points accrues displayed on the page must be accurate to the database within 5 seconds of the loading of the page.
+- The points accrues displayed on the page must be accurate to the database within 5 seconds of the loading of the page on UW wifi.
 - The points must be a direct reflection of the amount of problem sets the user has submitted with a score of 100%
 - If the user clicks on the Delete Account button the page must request confirmation as a popup from the user on if they want to delete their account forever.
-    - If the user clicks on the button to confirm the deletion the user must be removed from being logged in via the browser session and redirected to the landing page.
-    - All the information within the database that is related to that account including Account ID, Password, E-mail, and Points Accrued must be deleted from the database.
+- If the user clicks on the delete account button to confirm the deletion the user must be removed from being logged in via the browser session and redirected to the landing page.
+- If the user clicks on the delete account button, all the information within the database that is related to that account including Account ID, Password, E-mail, and Points Accrued must be deleted from the database.
 
 # Create Problem Set Page:
 - The problem set webpage must allow and require users to create a title that is no longer than 60 UTF-8 characters by typing UTF-8 input into the empty create title text input field.
@@ -75,7 +75,7 @@
 - The finished problem set page must allow users to reattempt the problem set they just completed by clicking on the “try again” button.
 - The finished problem set page must display the percentage of questions they answered correctly in plaintext on the problem set they just answered, rounded down to the nearest whole number. 
 - The finished problem set page must display 10 of the highest scoring users for this problem set in plaintext, showing both their truncated email without the domain and score. If there are ties in the highest scoring, the first users to achieve that score are given higher priority and are placed higher. If less than 10 users have attempted this problem set, this webpage only displays those that have, including the user who just attempted this problem set.
-- The 10 scores displayed on the finished problem set page must be accurate to the database when the webpage has finished loading within 3 seconds
+- The 10 scores displayed on the finished problem set page must be accurate to the database when the webpage has finished loading within 5 seconds on UW wifi.
 - The finished problem set page must display a button which allow users to create their own problem set within one click called “create problem set” and redirect the user to the create problem set page after clicking on it.
 - The finished problem set page must display a button to redirect the user to the review problem set page called “review answers” and redirects the user to the missed problems page after clicking on it.
 
