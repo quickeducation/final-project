@@ -86,7 +86,8 @@
       author: email,
       uid: uid,
       body: '',
-      title: title
+      title: title, 
+      length: 0
     };
 
     // Get a key for a new set.
@@ -127,8 +128,15 @@
       return questionsSnapshot.forEach(function(questionSnapshot) {
         if (questionSnapshot.val().title == setTitle && questionSnapshot.val().uid == uid) {
           var updates = {};
-          updates['/sets/' + String(questionSnapshot.key) + '/body/' + question] = answer;
-          updates['/user-sets/' + uid + '/' + String(questionSnapshot.key) + '/body/' + question] = answer;
+          updates['/sets/' + String(questionSnapshot.key) + '/length'] = questionSnapshot.val().length + 1;
+          updates['/user-sets/' + uid + '/' + String(questionSnapshot.key) + '/length'] = questionSnapshot.val().length + 1
+
+          updates['/sets/' + String(questionSnapshot.key) + '/body/questions/' + questionSnapshot.val().length] = question;
+          updates['/user-sets/' + uid + '/' + String(questionSnapshot.key) + '/body/questions/' + questionSnapshot.val().length] = question;
+
+          updates['/sets/' + String(questionSnapshot.key) + '/body/answers/' + questionSnapshot.val().length] = answer;
+          updates['/user-sets/' + uid + '/' + String(questionSnapshot.key) + '/body/answers/' + questionSnapshot.val().length] = answer;
+
           return firebase.database().ref().update(updates);
         }
        })
@@ -192,8 +200,6 @@
     $('qa-form').onsubmit = function(e) {
       e.preventDefault();
       var question = $('new-question').value;
-      // Key is serialized to fit in a key, remove the + when pulling info2
-      question = question.split(' ').join('+');
       var answer = $('new-answer').value;
       var title = $('new-post-title').value;
       if (question && answer && title) {
@@ -215,7 +221,7 @@
           password
       );
       //
-      
+
       user.reauthenticateWithCredential(credential).then(function() {
         var user = firebase.auth().currentUser;
         user.delete().then(function() {
