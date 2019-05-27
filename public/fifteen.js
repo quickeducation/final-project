@@ -192,7 +192,7 @@
     $('qa-form').onsubmit = function(e) {
       e.preventDefault();
       var question = $('new-question').value;
-      // Key is serialized to fit in a key, remove the + when pulling info
+      // Key is serialized to fit in a key, remove the + when pulling info2
       question = question.split(' ').join('+');
       var answer = $('new-answer').value;
       var title = $('new-post-title').value;
@@ -202,6 +202,30 @@
         $('new-question').value;
         $('new-answer').value;
       }
+    };
+
+    $('del-form').onsubmit = function(e) {
+      e.preventDefault();
+      var user = firebase.auth().currentUser;
+      // Make the user sign in again, maybe via prompt?
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      var credential = firebase.auth.EmailAuthProvider.credential(
+          email,
+          password
+      );
+      //
+      
+      user.reauthenticateWithCredential(credential).then(function() {
+        var user = firebase.auth().currentUser;
+        user.delete().then(function() {
+          alert('Deleted user');
+        }).catch(function(error) {
+          alert('Could not delete the user');
+        });
+      }).catch(function(error) {
+        alert('There was an error signing in.');
+      });
     };
   };
 })();
