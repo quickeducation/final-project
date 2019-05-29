@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
+import { Link } from 'react-router-dom';
 
 const CreateProblemSetPage = () => (
     <main className="container">
@@ -13,7 +14,8 @@ class CreateProblemSetBase extends Component {
         super(props);
         this.state = {
             title: "",
-            questionAnswerPairs : [{Question:"", Answer:""}]
+            questionAnswerPairs : [{Question:"", Answer:""}],
+            setID: null
          };
     }
 
@@ -59,7 +61,8 @@ class CreateProblemSetBase extends Component {
             }
         }
         const setJSON = this.createSetJSON(this.state.title, questions, answers);
-        this.props.firebase.addProblemSet(setJSON).then(() => console.log("set added."));
+        let setID = this.props.firebase.addProblemSet(setJSON);
+        this.setState({setID:setID});
     }
 
     createSetJSON = (title, questions, answers) => {
@@ -73,16 +76,43 @@ class CreateProblemSetBase extends Component {
         let json = { author: author, body:{answers: answers, questions: questions},
                     title: title, uid: uid, length: questions.length };
         return json;
-      }
+    }
 
     isValidInput = (input) => {
         return input.length <= 120 && input.length > 0;
     }
 
-    render() {
+    resetState = () => {
+        this.setState(({
+            title: "",
+            questionAnswerPairs : [{Question:"", Answer:""}],
+            setID: null
+        }))
+    }
 
+    render() {
+        if (this.state.setID) {
+            let searchQuery = "?setID=" + this.state.setID;
+            return (
+                <div>
+                    <h2>{this.state.title}</h2>
+                    <p>Was created! To access or share this problem set use this problem set ID:</p>
+                    <h4>{this.state.setID}</h4>
+                    <div className="d-flex justify-content-around">
+                        <Link to={{
+                            pathname:"/answerset",
+                            search:"?setID=searchQuery"
+                        }}>
+                            <button type="button" className="btn btn-primary">Test Yourself</button>
+                        </Link>
+                        <button type="button" onClick={this.resetState} className="btn btn-primary">Create Another Problem Set</button>
+
+                    </div>
+                </div>
+            )
+        }
         return (
-            <form id="set-form" onChange={this.handleChange}>
+            <form id="set-form" acceptCharset="UTF-8" onChange={this.handleChange}>
                 <div className="form-row form-group">
                     <div className="col">
                         <input type="text" id="title" className="form-control" placeholder="Problem Set Title" rows="2" maxLength="60"
@@ -116,12 +146,12 @@ const QuestionAnswerInputs = (props) => {
                     <label className="col-form-label">{questionNumber}.)</label>
                     <div className="col">
                         <input type="text" className="form-control" placeholder="Question" rows="2" maxLength="120"
-                            acceptCharset="UTF-8" value={props.questionAnswerPairs[index].question} 
+                            value={props.questionAnswerPairs[index].question} 
                             data-id={index} name={questionID} id={questionID} />
                     </div>
                     <div className="col">
                         <input type="text" className="form-control" placeholder="Answer" rows="2" maxLength="120"
-                            acceptCharset="UTF-8" value={props.questionAnswerPairs[index].answer} 
+                            value={props.questionAnswerPairs[index].answer} 
                             data-id={index} name={answerID} id={answerID} />
                     </div>
                 </div>

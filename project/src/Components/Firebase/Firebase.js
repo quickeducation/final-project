@@ -38,7 +38,8 @@ class Firebase {
         updates['/sets/' + newSetKey] = setJson;
         updates['/user-sets/' + setJson.uid + '/' + newSetKey] = setJson;
     
-        return this.db.ref().update(updates);
+        this.db.ref().update(updates);
+        return newSetKey;
     }
 
 }
