@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import NavbarFeatures from './Components/Navbar';
 import CreateAccount from './Components/CreateAccount';
 import Leaderboards from './Components/Leaderboards';
-import Login from './Components/Login';
-
+import SignUpPage from './Components/SignUp/'
+import CreateProblemSetPage from './Components/CreateProblemSet';
 
 
 // Component App that represents the main application and routes to the homepage and about page
@@ -21,7 +21,8 @@ export default class App extends Component {
                   <Route exact path='/home' component={HomePage} />
                   <Route exact path='/createAccount' component={CreateAccount} />
                   <Route exact path='/leaderboards' component={Leaderboards} />
-                  <Route exact path='/login' component={Login} />
+                  <Route exact path='/login' component={SignUpPage} />
+                  <Route exact path='/createset' component={CreateProblemSetPage} />
                   <Route component={HomePage} />
               </Switch>
           </Router>
@@ -36,7 +37,7 @@ class HomePage extends Component {
   render() {
       return (
           <div id="main">
-              <NavbarFeatures />
+              
           </div>
       );
   }
