@@ -8,6 +8,7 @@ import CreateAccount from './Components/CreateAccount';
 import Leaderboards from './Components/Leaderboards';
 import SignUpPage from './Components/SignUp/'
 import CreateProblemSetPage from './Components/CreateProblemSet';
+import AnswerProblemSetPage from './Components/AnswerProblemSet';
 
 
 // Component App that represents the main application and routes to the homepage and about page
@@ -23,6 +24,7 @@ export default class App extends Component {
                   <Route exact path='/leaderboards' component={Leaderboards} />
                   <Route exact path='/login' component={SignUpPage} />
                   <Route exact path='/createset' component={CreateProblemSetPage} />
+                  <Route exact path='/answerset' component={AnswerProblemSetPage} />
                   <Route component={HomePage} />
               </Switch>
           </Router>
@@ -37,7 +39,7 @@ class HomePage extends Component {
   render() {
       return (
           <div id="main">
-              
+              <NavbarFeatures />
           </div>
       );
   }

@@ -92,7 +92,6 @@ class CreateProblemSetBase extends Component {
 
     render() {
         if (this.state.setID) {
-            let searchQuery = "?setID=" + this.state.setID;
             return (
                 <div>
                     <h2>{this.state.title}</h2>
@@ -101,7 +100,7 @@ class CreateProblemSetBase extends Component {
                     <div className="d-flex justify-content-around">
                         <Link to={{
                             pathname:"/answerset",
-                            search:"?setID=searchQuery"
+                            search:"?setID=" + this.state.setID
                         }}>
                             <button type="button" className="btn btn-primary">Test Yourself</button>
                         </Link>
@@ -161,4 +160,4 @@ const QuestionAnswerInputs = (props) => {
 
 const CreateProblemSet = withFirebase(CreateProblemSetBase);
 
-export default CreateProblemSetPage
+export default CreateProblemSetPage;

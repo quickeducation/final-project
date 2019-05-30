@@ -5,8 +5,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Firebase, { FirebaseContext } from './Components/Firebase';
 
-import CreateProblemSet from './Components/CreateProblemSet';
-
 ReactDOM.render(
     <FirebaseContext.Provider value={new Firebase()}>
         <App />

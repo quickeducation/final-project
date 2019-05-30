@@ -23,7 +23,7 @@ class SignUpFormBase extends Component {
   }
 
   isValidEmail = email => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
@@ -75,20 +75,9 @@ class SignUpFormBase extends Component {
     }
     return (
       <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          name="password"
-          value={password}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Password"
-        />
+        <input name="email" value={email} onChange={this.onChange} type="text" placeholder="Email Address"/>
+        <input name="password" value={password} onChange={this.onChange} type="password" 
+          placeholder="Password"/>
         <button id="signUp" type="submit">Sign Up</button>
         <button id="signIn" type="submit">SignIn</button>
         {error && <p>{error.message}</p>}

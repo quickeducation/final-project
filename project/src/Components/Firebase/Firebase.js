@@ -42,6 +42,21 @@ class Firebase {
         return newSetKey;
     }
 
+    getSetTitle = (setID) => {
+        return this.db.ref('sets/' + setID + '/title').once('value')
+        .then(snapshot => snapshot.val());
+    }
+
+    getSetQuestions = (setID) => {
+        return this.db.ref('sets/' + setID + '/body/questions').once('value')
+        .then(snapshot => snapshot.val());
+    }
+
+    getTitleAndQuestions = (setID) => {
+        //return [this.getSetTitle(setID), this.getSetQuestions(setID)];
+        return ["title",["question1", "question2"]]
+    }
+
 }
 
 export default Firebase
