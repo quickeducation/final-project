@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import NavbarFeatures from './Components/Navbar';
 import CreateAccount from './Components/CreateAccount';
 import Leaderboards from './Components/Leaderboards';
-import Login from './Components/Login';
 import MyAccount from './Components/MyAccount';
 import SignUpPage from './Components/SignUp/'
 import CreateProblemSetPage from './Components/CreateProblemSet';
@@ -40,7 +39,7 @@ class HomePage extends Component {
   render() {
       return (
           <div id="main">
-              
+              <NavbarFeatures />
           </div>
       );
   }
