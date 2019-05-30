@@ -1,12 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
+import {
+    Container,
+    Button
+} from 'reactstrap';
 // import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import NavbarFeatures from './Components/Navbar';
+import Navbar from './Components/Navbar'; 
 import CreateAccount from './Components/CreateAccount';
+import MyAccount from './Components/MyAccount';
 import Leaderboards from './Components/Leaderboards';
-import SignUpPage from './Components/SignUp/'
+import SignUpPage from './Components/SignUp/';
 import CreateProblemSetPage from './Components/CreateProblemSet';
 
 // Component App that represents the main application and routes to the homepage and about page
@@ -37,7 +43,10 @@ class HomePage extends Component {
   render() {
       return (
           <div id="main">
-              
+            <Navbar></Navbar>
+            <Container className="text-center mt-5 mb-5">
+                <Button size="lg" color="primary">Get Started</Button>
+            </Container>
           </div>
       );
   }
