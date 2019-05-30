@@ -12,8 +12,11 @@ import Navbar from './Components/Navbar';
 import CreateAccount from './Components/CreateAccount';
 import MyAccount from './Components/MyAccount';
 import Leaderboards from './Components/Leaderboards';
-import SignUpPage from './Components/SignUp/';
+import Login from './Components/Login';
+import MyAccount from './Components/MyAccount';
+import SignUpPage from './Components/SignUp/'
 import CreateProblemSetPage from './Components/CreateProblemSet';
+
 
 // Component App that represents the main application and routes to the homepage and about page
 // depending on what the user chooses in the navigation bar. Defaults to the home page
