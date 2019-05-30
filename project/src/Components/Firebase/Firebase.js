@@ -30,7 +30,7 @@ class Firebase {
           }
           console.log(error);
         });
-        this.db.ref('users/' + firebase.auth().currentUser).set({
+        this.db.ref('users/' + this.auth.currentUser).set({
           email: email,
           score : 0
         });
