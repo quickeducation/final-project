@@ -82,41 +82,20 @@
     return json;
   }
 
-  function writeNewSet(json) {
+  function checkSet(json) {
 
-    // Get a key for a new set.
-    var newSetKey = firebase.database().ref().child('sets').push().key;
-
-    // Write the new sets's data simultaneously in the posts list and the user's post list.
-    var updates = {};
-    updates['/sets/' + newSetKey] = json;
-    updates['/user-sets/' + json.uid + '/' + newSetKey] = json;
-
-    return firebase.database().ref().update(updates);
   }
 
   window.onload = function() {
     // Listen for auth state changes
     //firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    let passedID = "-LfmeOKEW905-W5ZucoK";
+    let firstRow = $("first-row");
+    
 
     $("set-form").onsubmit = function(e) {
       e.preventDefault();
       const title = $("title").value;
-      if (!isValidInput(title)) {
-        alert("Title length is invalid.");
-        return;
-      }
-
-      const questions = document.querySelectorAll(
-        'input[placeholder="Question"]'
-      );
-      for (let i = 0; i < questions.length; i++) {
-        const questionText = questions[i].value;
-        if (!isValidInput(questionText)) {
-          alert("Question " + (i + 1) + "'s length  is invalid.");
-          return;
-        }
-      }
 
       const answers = document.querySelectorAll('input[placeholder="Answer"]');
       for (let i = 0; i < answers.length; i++) {
@@ -131,7 +110,7 @@
         alert("Uneven number of questions and answers");
       } else {
         const setJSON = createSetJSON(title, questions, answers);
-        writeNewSet(setJSON).then((response) => {
+        checkSet(setJSON).then((response) => {
             if (!response) {
                 //alert(""); failed to add set
             }
@@ -155,34 +134,3 @@
     };
   };
 })();
-
-// New rules for database.
-// {
-//   "rules": {
-
-//     "sets": {
-//       ".write": "auth != null",
-//       "$set_id": {
-//         "author": {
-//           ".read": "auth != null"
-//         },
-//         "body": {
-//           "$question_number":{
-//             "answer": {
-//               ".read": "false"
-//             },
-//             "question": {
-//               ".read": "auth != null",
-//             }
-//           }
-//         },
-//         "title": {
-//           ".read": "auth != null"
-//         },
-//         "uid": {
-//           ".read": "auth != null"
-//         }
-//       }
-//     }
-//   }
-// }

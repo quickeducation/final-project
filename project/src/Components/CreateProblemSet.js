@@ -115,8 +115,7 @@ class CreateProblemSetBase extends Component {
             <form id="set-form" acceptCharset="UTF-8" onChange={this.handleChange}>
                 <div className="form-row form-group">
                     <div className="col">
-                        <input type="text" id="title" className="form-control" placeholder="Problem Set Title" rows="2" maxLength="60"
-                            acceptCharset="UTF-8" />
+                        <input type="text" id="title" className="form-control" placeholder="Problem Set Title" rows="2" maxLength="60"/>
                     </div>
                 </div>
                 <div className="d-flex justify-content-around">
