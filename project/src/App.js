@@ -7,6 +7,7 @@ import NavbarFeatures from './Components/Navbar';
 import CreateAccount from './Components/CreateAccount';
 import Leaderboards from './Components/Leaderboards';
 import Login from './Components/Login';
+import MyAccount from './Components/MyAccount';
 
 
 
@@ -20,6 +21,7 @@ export default class App extends Component {
               <Switch>
                   <Route exact path='/home' component={HomePage} />
                   <Route exact path='/createAccount' component={CreateAccount} />
+                  <Route exact path='/myAccount' component={MyAccount} />
                   <Route exact path='/leaderboards' component={Leaderboards} />
                   <Route exact path='/login' component={Login} />
                   <Route component={HomePage} />

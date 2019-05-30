@@ -59,6 +59,9 @@ class NavItems extends Component {
                     <NavLink tag={Link} to="/createAccount">Create Account</NavLink>
                 </NavItem>
                 <NavItem>
+                    <NavLink tag={Link} to="/myAccount">My Account</NavLink>
+                </NavItem>
+                <NavItem>
                     <NavLink tag={Link} to="/leaderboards">Leaderboards</NavLink>
                 </NavItem>
                 {/* {!user ? <NavItem>
