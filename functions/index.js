@@ -9,7 +9,11 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
-admin.initializeApp();
+var serviceAccount = require("../../key.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://tester-7bc61.firebaseio.com"
+});
 
 // // Take the text parameter passed to this HTTP endpoint and insert it into the
 // // Realtime Database under the path /messages/:pushId/original
@@ -34,12 +38,55 @@ exports.addSetToUserSets = functions.database.ref('/sets/{setKey}/')
   const newValue = { userScore:0, possibleScore:numberOfQuestions, completed:false};
   // You must return a Promise when performing asynchronous tasks inside a Functions such as
   // writing to the Firebase Realtime Database.
+  
 
   return snapshot.ref.parent.parent.child('/user-sets/' + uid + "/" + setKey + "/").set(newValue);
 });
 
 // On account creating add their score and email to users in the database.
-exports.addUserToDatabase = functions.auth
-
+exports.addUserToDB = functions.auth.user().onCreate((user) => {
+  return admin.database().ref('/users/' + user.uid).set({
+    email: user.email,
+    score:0
+  });
+});
 
 // Validate user answers with https functions.
+exports.validateAnswers = functions.https.onRequest(async(req, res) => {
+  let uid; 
+  let answers;
+  let setID; 
+  try {
+    uid = req.body.uid;
+    answers = req.body.answers;
+    setID = req.body.setID;
+  } catch(error) {
+    res.status(400).send("Invalid request parameters.");
+  }
+  let actualAnswers;
+  try {
+    snap = await admin.database().ref(`/sets/${setID}/body/answers/`).once('value');
+    actualAnswers = snap.val();
+  } catch(error) {
+    res.status(400).send("Invalid setID.");
+  }
+
+  if (actualAnswers.length !== answers.length) {
+    res.status(400).send("Invalid setID.");
+  }
+  
+  let correctAnswers = [];
+  for (let index = 0; index < actualAnswers.length; index++) {
+    if (actualAnswers[index] !== answers[index]) {
+      correctAnswers.push(false);
+    } else {
+      correctAnswers.push(true);
+    }
+  }
+
+  // Update Database...
+
+  let result = {"correctAnswers": correctAnswers}
+  
+  res.status(200).send(result);
+})
