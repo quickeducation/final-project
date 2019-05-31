@@ -9,11 +9,14 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
-var serviceAccount = require("../../key.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://tester-7bc61.firebaseio.com"
-});
+admin.initializeApp();
+
+// var serviceAccount = require("../../key.json");
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://tester-7bc61.firebaseio.com"
+// });
+
 
 // // Take the text parameter passed to this HTTP endpoint and insert it into the
 // // Realtime Database under the path /messages/:pushId/original
@@ -62,31 +65,93 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
     setID = req.body.setID;
   } catch(error) {
     res.status(400).send("Invalid request parameters.");
+    return;
   }
   let actualAnswers;
   try {
-    snap = await admin.database().ref(`/sets/${setID}/body/answers/`).once('value');
-    actualAnswers = snap.val();
+    snaps = await Promise.all([
+      admin.database().ref(`/sets/${setID}/body/answers/`).once('value'),
+      admin.database().ref(`/user-sets/${uid}/${setID}/userScore/`).once('value')
+    ]);
+    actualAnswers = snaps[0].val();
+    actualAnswers.length;
+    snaps[1].val().length;
   } catch(error) {
-    res.status(400).send("Invalid setID.");
+    res.status(400).send("Invalid request parameters.");
+    return;
   }
 
   if (actualAnswers.length !== answers.length) {
     res.status(400).send("Invalid setID.");
+    return;
   }
   
   let correctAnswers = [];
+  let completed = true;
   for (let index = 0; index < actualAnswers.length; index++) {
     if (actualAnswers[index] !== answers[index]) {
       correctAnswers.push(false);
+      completed = false;
     } else {
       correctAnswers.push(true);
     }
   }
+  let numberOfCorrectAnswers = correctAnswers.filter(Boolean).length;
 
   // Update Database...
-
-  let result = {"correctAnswers": correctAnswers}
+  let hasAlreadyAttempted = snaps[1].val() !== null;
+  if (hasAlreadyAttempted && snaps[1].val() < numberOfCorrectAnswers) {
+    if (numberOfCorrectAnswers === correctAnswers.length) {
+      let update = Promise.all([
+        admin.database().ref(`/users/${uid}/`).transaction((score)=> {
+          if (score) {
+            score++;
+            return score;
+          } 
+          return score;
+        }),
+        admin.database().ref(`/user-sets/${uid}/${setID}/`).update(
+          {
+            completed: true,
+            userScore: numberOfCorrectAnswers
+          }
+        )
+      ]);
+    } else {
+      let update = await admin.database().ref(`/user-sets/${uid}/${setID}/`).update(
+        {
+          userScore: numberOfCorrectAnswers
+        }
+      );
+    }
+  } else if (!hasAlreadyAttempted && numberOfCorrectAnswers === correctAnswers.length) {
+    let update = Promise.all([
+      admin.database().ref(`/users/${uid}/`).transaction((score)=> {
+        if (score) {
+          score++;
+          return score;
+        } 
+        return score;
+      }),
+      admin.database().ref(`/user-sets/${uid}/${setID}/`).set(
+        {
+          completed: true,
+          userScore: numberOfCorrectAnswers,
+          possibleScore: numberOfCorrectAnswers
+        }
+      )
+    ]);
+  } else if (!hasAlreadyAttempted) {
+    let update = await admin.database().ref(`/user-sets/${uid}/${setID}/`).set(
+      {
+        completed: false,
+        userScore: numberOfCorrectAnswers,
+        possibleScore: correctAnswers.length
+      }
+    );
+  }
   
+  let result = {"correctAnswers": correctAnswers}  
   res.status(200).send(result);
-})
+});
+// curl -X GET -H "Content-Type:application/json" http://localhost:5001/tester-7bc61/us-central1/validateAnswers -d '{"uid":"YmlDM6nhkPRDZcCRi7FTqpAMGks2", "setID":"-LfvJf4q97PwKQNSd-fQ", "answers":["a cool color","6"]}'
