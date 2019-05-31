@@ -27,7 +27,7 @@ class Firebase {
 
     doSignOut = () => this.auth.signOut();
 
-    isSignedIn = () => {return this.auth.currentUser !== null;}
+    isSignedIn = () => {return this.auth.currentUser !== undefined;}
 
     addProblemSet = (setJson) => {
         // Get a key for a new set.
@@ -36,7 +36,12 @@ class Firebase {
         // Write the new sets's data simultaneously in the posts list and the user's post list.
         var updates = {};
         updates['/sets/' + newSetKey] = setJson;
-        updates['/user-sets/' + setJson.uid + '/' + newSetKey] = setJson;
+
+        // Need to change how this is structured.
+        // Only really need to add a score
+        // Which should be done by the server, a firebase function
+        // 
+       // updates['/user-sets/' + setJson.uid + '/' + newSetKey] = setJson;
     
         this.db.ref().update(updates);
         return newSetKey;

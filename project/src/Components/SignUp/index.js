@@ -71,7 +71,7 @@ class SignUpFormBase extends Component {
   render() {
     const {email, password, error} = this.state;
     if (this.props.firebase.isSignedIn) {
-        this.props.history.push('/home');
+        //this.props.history.push('/home');
     }
     return (
       <form onSubmit={this.onSubmit}>

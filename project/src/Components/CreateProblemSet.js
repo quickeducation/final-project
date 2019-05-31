@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 const CreateProblemSetPage = () => (
     <main className="container">
-                <h2>Create A Problem Set</h2>
-                <CreateProblemSet />
+        <h2>Create A Problem Set</h2>
+        <CreateProblemSet />
     </main>
 )
 
@@ -66,12 +66,13 @@ class CreateProblemSetBase extends Component {
     }
 
     createSetJSON = (title, questions, answers) => {
+        console.log(this.props.firebase.auth.currentUser);
         let currentUser = this.props.firebase.auth.currentUser;
-        let author = currentUser.email;
-        let uid = currentUser.uid;
-        if (!author) {
-          author = "Anonymous";
-          uid = "Anonymous"
+        let author = "Anonymous";
+        let uid = "Anonymous";
+        if (currentUser) {
+          author = currentUser.email;
+          uid = currentUser.uid;;
         }
         let json = { author: author, body:{answers: answers, questions: questions},
                     title: title, uid: uid, length: questions.length };
