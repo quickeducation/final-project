@@ -35,7 +35,9 @@ class AnswerProblemSetBase extends Component {
             questions : [],
             answers: [],
             isLoading: true,
-            error:null
+            error:null,
+            reviewing:false,
+            results:[]
         };
     }
 
@@ -71,18 +73,13 @@ class AnswerProblemSetBase extends Component {
         }
         this.props.firebase.validateAnswers(answers, this.props.setID)
         .then((response) => {
-            this.setState({isLoading:false})
+            this.setState({isLoading:false, results: response.correctAnswers})
             console.log('Success: ', response.correctAnswers);
         })
         .catch((error) => {
-            this.setState({isLoading:false})
+            this.setState({isLoading:false, error:error})
             console.log('Error:', error)
         })
-        // this.props.firebase.checkAnswers(json)
-        // this function would also add the userID?
-        // should be done with a firebase function
-        // .then((response))
-        //
     }
 
     isValidInput = (input) => {
@@ -98,7 +95,24 @@ class AnswerProblemSetBase extends Component {
                 </div>
             );
         } else if (this.state.error) {
-
+            return (
+                <div>
+                    <h2>Uh oh you ran into an error</h2>
+                    <p>{this.state.error}</p>
+                </div>
+            );
+        } else if (this.state.reviewing) {
+            return (
+                <ReviewPage theirAnswers={this.state.answers} questions={this.state.questions}
+                answeredCorrectly={this.state.results} title={this.state.title}/>
+            );
+        } else if (this.state.results.length !== 0) {
+            let results = this.state.results;
+            let percentage = 100 * results.filter(Boolean).length / results.length;
+            percentage = Math.floor(percentage);
+            return (
+                <FinishedProblemSetPage percentage={this.percentage} setID={this.state.setID} />
+            )
         }
         return (
             <div>
@@ -112,6 +126,42 @@ class AnswerProblemSetBase extends Component {
             </div>
         )
     }
+}
+
+const ReviewPage = (props) => {
+    return (
+        <div>
+            <h2>{props.title}</h2>
+            {
+                props.theirAnswers.map((answer, index) => {
+                    let question = props.questions[index];
+                    let correct = props.answeredCorrectly[index];
+                    let borderStyle = "col d-flex align-items-center justify-content-center";
+                    if (correct) {
+                        borderStyle = borderStyle + "border border-success"
+                    } else {
+                        borderStyle = borderStyle + "border border-danger"
+                    }
+                    let questionNumber = index + 1;
+                    return (
+                    <div className="form-row form-group" key={questionNumber}>
+                        <label className="col-form-label">{questionNumber}.)</label>
+                        <div className="col d-flex align-items-center justify-content-center">
+                            <p className="m-0">{question}</p>
+                        </div>
+                        <div className={borderStyle}>
+                            <p className="m-0">{answer}</p>
+                        </div>
+                    </div>
+                    );
+                })
+            }
+        </div>
+    )
+}
+
+const FinishedProblemSetPage = (props) => {
+
 }
 
 const QuestionsAndAnswerInputs = (props) => {

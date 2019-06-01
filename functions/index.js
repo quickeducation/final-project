@@ -11,6 +11,11 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+// CORS Express middleware to enable CORS Requests.
+const cors = require('cors')({
+  origin: true,
+});
+
 // var serviceAccount = require("../../key.json");
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
@@ -56,6 +61,7 @@ exports.addUserToDB = functions.auth.user().onCreate((user) => {
 
 // Validate user answers with https functions.
 exports.validateAnswers = functions.https.onRequest(async(req, res) => {
+  cors(req, res, () => {});
   let uid; 
   let answers;
   let setID; 
@@ -64,7 +70,7 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
     answers = req.body.answers;
     setID = req.body.setID;
   } catch(error) {
-    res.status(400).send("Invalid request parameters.");
+    res.status(400).send({error:"Invalid request parameters."});
     return;
   }
   let actualAnswers;
@@ -75,14 +81,13 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
     ]);
     actualAnswers = snaps[0].val();
     actualAnswers.length;
-    snaps[1].val().length;
   } catch(error) {
-    res.status(400).send("Invalid request parameters.");
+    res.status(400).send({error:"Invalid request parameters."});
     return;
   }
 
   if (actualAnswers.length !== answers.length) {
-    res.status(400).send("Invalid setID.");
+    res.status(400).send({error:"Invalid setID."});
     return;
   }
   
@@ -154,4 +159,4 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
   let result = {"correctAnswers": correctAnswers}  
   res.status(200).send(result);
 });
-// curl -X GET -H "Content-Type:application/json" http://localhost:5001/tester-7bc61/us-central1/validateAnswers -d '{"uid":"YmlDM6nhkPRDZcCRi7FTqpAMGks2", "setID":"-LfvJf4q97PwKQNSd-fQ", "answers":["a cool color","6"]}'
+// curl -X  -H "Content-Type:application/json" http://localhost:5001/tester-7bc61/us-central1/validateAnswers -d '{"uid":"foiniWygiRYFsdoVxCZcvvE3sBx2", "setID":"-LfvJf4q97PwKQNSd-fQ", "answers":["a cool color","6"]}'
