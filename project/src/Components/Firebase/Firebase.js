@@ -58,8 +58,27 @@ class Firebase {
     }
 
     getTitleAndQuestions = (setID) => {
-        //return [this.getSetTitle(setID), this.getSetQuestions(setID)];
-        return ["title",["question1", "question2"]]
+        return [this.getSetTitle(setID), this.getSetQuestions(setID)];
+    }
+
+    validateAnswers = (answers, setID) => {
+        const url = "https://us-central1-tester-7bc61.cloudfunctions.net/validateAnswers";
+        let data = {uid: this.auth.currentUser.uid, setID:setID, answers:answers};
+        return fetch(url, {
+            method: 'Post',
+            mode: 'cors',
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error("Invalid Set ID.");
+            }
+        })
     }
 
 }

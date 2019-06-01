@@ -62,14 +62,22 @@ class AnswerProblemSetBase extends Component {
     submitAnswers = (e) => {
         e.preventDefault();
         let answers = this.state.answers;
+        this.setState({isLoading:true})
         for (let i = 0; i < answers.length; i++) {
             if (!this.isValidInput(answers[i])) {
                 alert("Question " + (i + 1) + "'s length is invalid.");
                 return;
             }
         }
-        let json = {setID:this.props.setID, answers:answers};
-        console.log(json);
+        this.props.firebase.validateAnswers(answers, this.props.setID)
+        .then((response) => {
+            this.setState({isLoading:false})
+            console.log('Success: ', response.correctAnswers);
+        })
+        .catch((error) => {
+            this.setState({isLoading:false})
+            console.log('Error:', error)
+        })
         // this.props.firebase.checkAnswers(json)
         // this function would also add the userID?
         // should be done with a firebase function

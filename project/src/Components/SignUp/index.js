@@ -29,12 +29,13 @@ class SignUpFormBase extends Component {
 
   onSubmit = event => {
     event.preventDefault();
+    console.log(event.target)
     const { email, password} = this.state;
     if (!this.isValidEmail(email)) {
         alert("Invalid email address");
         return;
     }
-    if (event.target.id === "signUp") {
+    if (event.target.id !== "signUp") {
         this.props.firebase
         .doCreateUserWithEmailAndPassword(email, password)
         .then(authUser => {
