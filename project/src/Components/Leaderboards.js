@@ -11,40 +11,14 @@ export default class Leaderboards extends Component {
   constructor() {
     super(); 
     this.state = {
-      data: [{
-        id: 1,
-        name: "Simon Bailey"
-      }, {
-        id: 2,
-        name: "Thomas Burleson"
-      }, {
-        id: 3,
-        name: "Will Button"
-      }, {
-        id: 4,
-        name: "Ben Clinkinbeard"
-      }, {
-        id: 5,
-        name: "Kent Dodds"
-      }, {
-        id: 6,
-        name: "Trevor Ewen"
-      }, {
-        id: 7,
-        name: "Aaron Frost"
-      }, {
-        id: 8,
-        name: "Joel Hooks"
-      }, {
-        id: 9,
-        name: "Jafar Husain"
-      }, {
-        id: 10,
-        name: "Tim Kindberg"
-      }]
+      // Implement state here in the constructor. 
     }
   }
   
+  componentDidMount() {
+    // Render
+  }
+
   render() {
     return (
       <div id="leaderboards">

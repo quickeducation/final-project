@@ -19,15 +19,43 @@ class Firebase {
         this.db = app.database()
     }
 
-    doCreateUserWithEmailAndPassword = (email, password) =>
-        this.auth.createUserWithEmailAndPassword(email, password);
+    doCreateUserWithEmailAndPassword = (email, password) => {
+        this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode == 'auth/weak-password') {
+            alert('The password is too weak.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
+        });
+        this.db.ref('users/' + this.auth.currentUser).set({
+          email: email,
+          score : 0
+        });
+    }
 
-    doSignInWithEmailAndPassword = (email, password) =>
-        this.auth.signInWithEmailAndPassword(email, password);
+    doSignInWithEmailAndPassword = (email, password) => {     
+      this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === 'auth/wrong-password') {
+          alert('Wrong password.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
+    }
 
-    doSignOut = () => this.auth.signOut();
+    doSignOut = () => {
+        this.auth.signOut();
+    }
 
-    isSignedIn = () => {return this.auth.currentUser !== null;}
+    isSignedIn = () => {
+        return this.auth.currentUser !== null;
+    }
 
     addProblemSet = (setJson) => {
         // Get a key for a new set.
@@ -40,6 +68,24 @@ class Firebase {
     
         this.db.ref().update(updates);
         return newSetKey;
+    }
+
+    deleteUser = () => {
+        var user = this.auth.currentUser;
+        if (user) {
+            user.delete().then(function() {
+              let ref = this.db.ref('users/' + user.uid)
+              ref.remove()
+                  .then(function() {
+                    console.log("Remove succeeded.")
+                  })
+                  .catch(function(error) {
+                    console.log("Remove failed: " + error.message)
+                  });
+            }).catch(function(error) {
+              alert('Could not delete the user');
+            });
+        }
     }
 
 }
