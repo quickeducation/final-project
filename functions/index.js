@@ -9,18 +9,18 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
-admin.initializeApp();
+// admin.initializeApp();
 
 // CORS Express middleware to enable CORS Requests.
 const cors = require('cors')({
   origin: true,
 });
 
-// var serviceAccount = require("../../key.json");
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://tester-7bc61.firebaseio.com"
-// });
+var serviceAccount = require("../../key.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://tester-7bc61.firebaseio.com"
+});
 
 
 // // Take the text parameter passed to this HTTP endpoint and insert it into the
@@ -107,13 +107,10 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
   let hasAlreadyAttempted = snaps[1].val() !== null;
   if (hasAlreadyAttempted && snaps[1].val() < numberOfCorrectAnswers) {
     if (numberOfCorrectAnswers === correctAnswers.length) {
+      console.log("has already attempted but reached highest for first time.")
       let update = Promise.all([
-        admin.database().ref(`/users/${uid}/`).transaction((score)=> {
-          if (score) {
-            score++;
-            return score;
-          } 
-          return score;
+        admin.database().ref(`/users/${uid}`).child("score").transaction((score)=> {
+          return score + 1;
         }),
         admin.database().ref(`/user-sets/${uid}/${setID}/`).update(
           {
@@ -123,6 +120,7 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
         )
       ]);
     } else {
+      console.log("didn't get max score");
       let update = await admin.database().ref(`/user-sets/${uid}/${setID}/`).update(
         {
           userScore: numberOfCorrectAnswers
@@ -130,13 +128,10 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
       );
     }
   } else if (!hasAlreadyAttempted && numberOfCorrectAnswers === correctAnswers.length) {
+    console.log("New attempt and max score")
     let update = Promise.all([
-      admin.database().ref(`/users/${uid}/`).transaction((score)=> {
-        if (score) {
-          score++;
-          return score;
-        } 
-        return score;
+      admin.database().ref(`/users/${uid}/score/`).transaction((score)=> {
+        return score + 1;
       }),
       admin.database().ref(`/user-sets/${uid}/${setID}/`).set(
         {
@@ -147,6 +142,7 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
       )
     ]);
   } else if (!hasAlreadyAttempted) {
+    console.log("first attempt but not max");
     let update = await admin.database().ref(`/user-sets/${uid}/${setID}/`).set(
       {
         completed: false,
@@ -164,5 +160,5 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
 // then if it's an https function you can use cUrl to reach the function
 // and pass arguments...
 // ex)  
-// curl -X  -H "Content-Type:application/json" http://localhost:5001/tester-7bc61/us-central1/validateAnswers -d '{"uid":"foiniWygiRYFsdoVxCZcvvE3sBx2", "setID":"-LfvJf4q97PwKQNSd-fQ", "answers":["a cool color","6"]}'
+// curl -H "Content-Type:application/json" http://localhost:5000/tester-7bc61/us-central1/validateAnswers -d '{"uid":"foiniWygiRYFsdoVxCZcvvE3sBx2", "setID":"-LgFGpxvBbZnjCAk_l8X", "answers":["2","100","58"]}'
 

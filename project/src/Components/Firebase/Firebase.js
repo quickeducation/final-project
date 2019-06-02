@@ -20,24 +20,20 @@ class Firebase {
     }
 
     doCreateUserWithEmailAndPassword = (email, password) => {
-        this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+        return this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
           var errorCode = error.code;
           var errorMessage = error.message;
-          if (errorCode == 'auth/weak-password') {
+          if (errorCode === 'auth/weak-password') {
             alert('The password is too weak.');
           } else {
             alert(errorMessage);
           }
           console.log(error);
         });
-        this.db.ref('users/' + this.auth.currentUser).set({
-          email: email,
-          score : 0
-        });
     }
 
     doSignInWithEmailAndPassword = (email, password) => {     
-      this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+      return this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
         if (errorCode === 'auth/wrong-password') {

@@ -107,9 +107,9 @@ class AnswerProblemSetBase extends Component {
         }
         if (this.state.isLoading) {
             return (
-                <div class="d-flex justify-content-center mt-4">
-                    <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
+                <div className="d-flex justify-content-center mt-4">
+                    <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
                     </div>
                 </div>
             );
