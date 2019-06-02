@@ -159,4 +159,10 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
   let result = {"correctAnswers": correctAnswers}  
   res.status(200).send(result);
 });
+// you can test functions locally with 
+// firebase serve --only functions
+// then if it's an https function you can use cUrl to reach the function
+// and pass arguments...
+// ex)  
 // curl -X  -H "Content-Type:application/json" http://localhost:5001/tester-7bc61/us-central1/validateAnswers -d '{"uid":"foiniWygiRYFsdoVxCZcvvE3sBx2", "setID":"-LfvJf4q97PwKQNSd-fQ", "answers":["a cool color","6"]}'
+
