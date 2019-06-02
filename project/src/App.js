@@ -9,6 +9,8 @@ import Leaderboards from './Components/Leaderboards';
 import SignUpPage from './Components/SignUp/'
 import CreateProblemSetPage from './Components/CreateProblemSet';
 import AnswerProblemSetPage from './Components/AnswerProblemSet';
+import SubmittedAnswersPage from './Components/SubmittedAnswers';
+import ReviewSetPage from './Components/ReviewProblemSet'
 
 
 // Component App that represents the main application and routes to the homepage and about page
@@ -25,6 +27,8 @@ export default class App extends Component {
                   <Route exact path='/login' component={SignUpPage} />
                   <Route exact path='/createset' component={CreateProblemSetPage} />
                   <Route exact path='/answerset' component={AnswerProblemSetPage} />
+                  <Route exact path='/submitted' component={SubmittedAnswersPage} />
+                  <Route exact path='/reviewset' component={ReviewSetPage} />
                   <Route component={HomePage} />
               </Switch>
           </Router>

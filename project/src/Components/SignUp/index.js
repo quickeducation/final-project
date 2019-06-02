@@ -37,10 +37,9 @@ class SignUpFormBase extends Component {
     }
     if (event.target.id !== "signUp") {
         this.props.firebase
-        .doCreateUserWithEmailAndPassword(email, password)
+        .doSignInWithEmailAndPassword(email, password)
         .then(authUser => {
             this.setState({ ...INITIAL_STATE });
-            console.log("signed in redirect them....");
             this.props.history.push('/home');
         })
         .catch(error => {
@@ -52,7 +51,6 @@ class SignUpFormBase extends Component {
         .doSignInWithEmailAndPassword(email, password)
         .then(authUser => {
             this.setState({ ...INITIAL_STATE });
-            console.log("signed in redirect them....");
             this.props.history.push('/home');
 
         })

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class AnswerProblemSetPage extends Component {
     render() {
@@ -36,8 +36,8 @@ class AnswerProblemSetBase extends Component {
             answers: [],
             isLoading: true,
             error:null,
-            reviewing:false,
-            results:[]
+            results:[],
+            redirect:false,
         };
     }
 
@@ -73,11 +73,12 @@ class AnswerProblemSetBase extends Component {
         }
         this.props.firebase.validateAnswers(answers, this.props.setID)
         .then((response) => {
-            this.setState({isLoading:false, results: response.correctAnswers})
-            console.log('Success: ', response.correctAnswers);
+            let results = response.correctAnswers
+            this.setState({results:results,redirect:true});
+
         })
         .catch((error) => {
-            this.setState({isLoading:false, error:error})
+            this.setState({isLoading:false, error:error.error})
             console.log('Error:', error)
         })
     }
@@ -88,10 +89,28 @@ class AnswerProblemSetBase extends Component {
 
 
     render() {
+        if (this.state.redirect) {
+            return (
+                <Redirect 
+                    to={{
+                        pathname:"/submitted",
+                        state: {
+                            title: this.state.title,
+                            setID: this.props.setID,
+                            questions: this.state.questions,
+                            answers: this.state.answers,
+                            results: this.state.results
+                        }
+                    }}
+                />
+            )
+        }
         if (this.state.isLoading) {
             return (
-                <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
+                <div class="d-flex justify-content-center mt-4">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
             );
         } else if (this.state.error) {
@@ -101,18 +120,6 @@ class AnswerProblemSetBase extends Component {
                     <p>{this.state.error}</p>
                 </div>
             );
-        } else if (this.state.reviewing) {
-            return (
-                <ReviewPage theirAnswers={this.state.answers} questions={this.state.questions}
-                answeredCorrectly={this.state.results} title={this.state.title}/>
-            );
-        } else if (this.state.results.length !== 0) {
-            let results = this.state.results;
-            let percentage = 100 * results.filter(Boolean).length / results.length;
-            percentage = Math.floor(percentage);
-            return (
-                <FinishedProblemSetPage percentage={this.percentage} setID={this.state.setID} />
-            )
         }
         return (
             <div>
@@ -126,42 +133,6 @@ class AnswerProblemSetBase extends Component {
             </div>
         )
     }
-}
-
-const ReviewPage = (props) => {
-    return (
-        <div>
-            <h2>{props.title}</h2>
-            {
-                props.theirAnswers.map((answer, index) => {
-                    let question = props.questions[index];
-                    let correct = props.answeredCorrectly[index];
-                    let borderStyle = "col d-flex align-items-center justify-content-center";
-                    if (correct) {
-                        borderStyle = borderStyle + "border border-success"
-                    } else {
-                        borderStyle = borderStyle + "border border-danger"
-                    }
-                    let questionNumber = index + 1;
-                    return (
-                    <div className="form-row form-group" key={questionNumber}>
-                        <label className="col-form-label">{questionNumber}.)</label>
-                        <div className="col d-flex align-items-center justify-content-center">
-                            <p className="m-0">{question}</p>
-                        </div>
-                        <div className={borderStyle}>
-                            <p className="m-0">{answer}</p>
-                        </div>
-                    </div>
-                    );
-                })
-            }
-        </div>
-    )
-}
-
-const FinishedProblemSetPage = (props) => {
-
 }
 
 const QuestionsAndAnswerInputs = (props) => {
