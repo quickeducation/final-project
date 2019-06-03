@@ -3,11 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Components/Firebase/context';
 import NavbarFeatures from '../Components/Navbar';
 
-const CreateAccountPage = () => (
+const LoginPage = () => (
     <div id="login">
         <NavbarFeatures />
         <p>Enter your email and password below to sign in</p>
-        <CreateAccountForm />
+        <LoginForm />
     </div>
   );
   
@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 };
   
     
-class CreateAccountFormBase extends Component {
+class LoginFormBase extends Component {
     constructor(props) {
         super(props);
         this.state = { ...INITIAL_STATE };
@@ -36,17 +36,18 @@ class CreateAccountFormBase extends Component {
             alert("Invalid email address");
             return;
         } else  {
-          this.props.firebase
-          .doCreateUserWithEmailAndPassword(email, password)
-          .then(authUser => {
-              this.setState({ ...INITIAL_STATE });
-              console.log("signed in redirect them....");
-              this.props.history.push('/home');
-          })
-          .catch(error => {
-              console.log(error);
-              this.setState({ error });
-          });
+            this.props.firebase
+            .doSignInWithEmailAndPassword(email, password)
+            .then(authUser => {
+                this.setState({ ...INITIAL_STATE });
+                console.log("signed in redirect them....");
+                this.props.history.push('/home');
+    
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({ error });
+            });
         }
       }
     
@@ -76,7 +77,7 @@ class CreateAccountFormBase extends Component {
             type="password"
             placeholder="Password"
             />
-            <button id="signUp" type="submit">Sign Up</button>
+            <button id="login" type="submit">Log in</button>
             {error && <p>{error.message}</p>}
         </form>
         );
@@ -84,6 +85,7 @@ class CreateAccountFormBase extends Component {
 }
 
 
-const CreateAccountForm = withRouter(withFirebase(CreateAccountFormBase));
+const LoginForm = withRouter(withFirebase(LoginFormBase));
 
-export default CreateAccountPage
+export default LoginPage;
+
