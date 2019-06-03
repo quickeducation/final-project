@@ -17,13 +17,8 @@ import {
     Switch, 
     Link
 } from 'react-router-dom';
-import NavbarFeatures from './Components/Navbar';
 import Navbar from './Components/Navbar'; 
 import CreateAccount from './Components/CreateAccount';
-<<<<<<< HEAD
-=======
-import Leaderboards from './Components/Leaderboards';
->>>>>>> bb9beac9db86c9ff2c90abdc95c184b8e6701781
 import MyAccount from './Components/MyAccount';
 import Leaderboards from './Components/Leaderboards';
 import LandingPage from './Components/LandingPage';

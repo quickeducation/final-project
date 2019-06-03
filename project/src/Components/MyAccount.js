@@ -6,6 +6,7 @@ import {
   Col,
   Button
 } from 'reactstrap';
+import { withFirebase } from './Firebase'; 
 
 export default class MyAccount extends Component {
     render() {
@@ -23,17 +24,25 @@ export default class MyAccount extends Component {
 }
 
 class AccountDetailsTable extends Component {
+  constructor(props) {
+    
+    this.state = {
+      Email: "",
+      Points: ""
+    };
+  }
+
   render() {
     return (
       <Container> 
         <Col sm="12" md={{ size: 8, offset: 2 }}>
           <Table responsive borderless>
             <tbody>
-              <tr>
+              {/* <tr>
                 <th scope="row">Username:</th>
                 <td>rwieruch</td>
                 <td><Button size="sm" color="primary">Edit</Button></td>
-              </tr>
+              </tr> */}
               <tr>
                 <th scope="row">Email:</th>
                 <td>exampleemail@quicklearning.edu</td>

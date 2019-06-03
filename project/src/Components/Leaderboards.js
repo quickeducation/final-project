@@ -5,20 +5,15 @@ import {
   Container,
   Col
 } from 'reactstrap';
+import { withFirebase } from './Firebase'; 
 
+const LeaderboardsPage = () => {
+  <main className="Container"> 
+    <LeaderboardsConst></LeaderboardsConst>
+  </main>
+}
 
-export default class Leaderboards extends Component {
-  constructor() {
-    super(); 
-    this.state = {
-      // Implement state here in the constructor. 
-    }
-  }
-  
-  componentDidMount() {
-    // Render
-  }
-
+class Leaderboards extends Component {
   render() {
     return (
       <div id="leaderboards">
@@ -31,7 +26,53 @@ export default class Leaderboards extends Component {
 }
 
 class LeaderboardsTable extends Component {
+  constructor(props) {
+    super(props); 
+    this.state = {
+      // Implement state here in the constructor. 
+      loading: false,
+      users: [],
+    };
+  }
+  
+  componentDidMount() {
+    // Render
+    this.setState({ loading: true });
+    //this.props.firebase.db.collection('users').orderBy("points").limit(10);
+
+    this.props.firebase.users().on('value', snapshot => {
+      const usersObjects = snapshot.val(); 
+      
+      const usersList = Object.keys(usersObjects).map(key => ({
+        ...usersObjects[key],
+        uid: key,
+      }));
+      
+      // Sets the users as a list instead of objects to make it easier to display. 
+      this.setState({
+        users: usersList,
+        loading: false,
+      });
+    });
+  }
+
+  // Removes listener to avoid memory leaks 
+  componentWillUnmount() {
+    this.props.firebase.users().off(); 
+  }
+
   render() {
+    const users = this.state.users;
+    let rank = 1; 
+    const data = users.forEach((user) => {
+      <tr>
+        <th scope="row">{rank}</th>
+        <td>{user.email}</td>
+        <td>{user.points}</td>
+      </tr>
+      rank++; 
+    })  
+
     return (
       <Container> 
         <Col sm="12" md={{ size: 8, offset: 2 }}>
@@ -67,17 +108,21 @@ class LeaderboardsTable extends Component {
   }
 }
 
-const LeaderboardRow = (props) => {
+const LeaderboardRow = () => {
   return (
     <tr>
       {/* The row number needs to be calulated beforehand */}
       <th scope="row">3</th>
       <td>
-        { props.data.username }
+      {/* user email */}
       </td>
       <td>
-        { props.data.points }
+      {/* user points */}
       </td>
     </tr>
   ); 
 }
+
+const LeaderboardsConst = withFirebase(Leaderboards);
+
+export default LeaderboardsPage; 
