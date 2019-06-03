@@ -33,10 +33,6 @@ class Firebase {
             }
             console.log(error);
           });
-          this.db.ref('users/' + this.auth.currentUser.uid).set({
-            email: email,
-            score : 0
-          });
           resolve(true);
         });
     }
