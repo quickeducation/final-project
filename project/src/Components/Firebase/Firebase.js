@@ -77,15 +77,32 @@ class Firebase {
               let ref = this.db.ref('users/' + user.uid)
               ref.remove()
                   .then(function() {
-                    console.log("Remove succeeded.")
+                    alert("Remove succeeded.")
                   })
                   .catch(function(error) {
-                    console.log("Remove failed: " + error.message)
+                    alert("Remove failed: " + error.message)
                   });
             }).catch(function(error) {
               alert('Could not delete the user');
             });
         }
+    }
+
+    returnAllUsers = () => {
+        return this.database.ref('/users').once('value');
+  }
+
+    returnAllUserSets = () => {
+        return this.database.ref('/user-sets').once('value');
+    }
+
+    editUseraname = (newUsername) => {
+        var user = this.auth.currentUser;
+
+        var updates = {};
+        updates['/users/' + user.uid + '/email'] = newUsername;
+
+        return this.database.ref().update(updates);
     }
 
 }
