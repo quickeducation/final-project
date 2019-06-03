@@ -30,10 +30,6 @@ class Firebase {
           }
           console.log(error);
         });
-        this.db.ref('users/' + this.auth.currentUser).set({
-          email: email,
-          score : 0
-        });
     }
 
     doSignInWithEmailAndPassword = (email, password) => {     
