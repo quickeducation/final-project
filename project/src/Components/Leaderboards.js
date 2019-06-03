@@ -20,18 +20,43 @@ class LeaderboardsPage extends Component {
   }
 }
 
+const TEST_STATE = {
+  users: [
+    {
+      email: "a@uw.edu",
+      points: 10,
+      uid: 1111
+    },
+    {
+      email: "b@uw.edu",
+      points: 10,
+      uid: 1222
+    },
+    {
+      email: "c@uw.edu",
+      points: 10,
+      uid: 13333
+    },
+    {
+      email: "d@uw.edu",
+      points: 10,
+      uid: 14444
+    }
+  ]
+}
+
 class LeaderboardsBase extends Component {
   constructor(props) {
     super(props); 
     this.state = {
-      // Implement state here in the constructor. 
-      users: [],
+      ...TEST_STATE
     };
   }
   
   componentDidMount() {
     // Returns a promise 
-    this.props.firebase.returnTopTenUsers() 
+    this.props.firebase
+    .returnAllUsers() 
     .then((snapshot) => {
       let users = snapshot.val(); 
       this.setState({
@@ -54,42 +79,21 @@ class LeaderboardsBase extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>rwieruch</td>
-                <td>9999999</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Ajay</td>
-                <td>9999998</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Name3</td>
-                <td>1</td>
-              </tr>
+              {this.state.users.map((user, i) => {
+                return (
+                  <tr key={user.uid}>
+                    <th scope="row">{i + 1}</th>
+                    <td>{user.email}</td>
+                    <td>{user.points}</td>
+                  </tr>
+                );
+              })}
             </tbody>
         </Table>
       </Col>
     </Container>      
     ); 
   }
-}
-
-const LeaderboardRow = () => {
-  return (
-    <tr>
-      {/* The row number needs to be calulated beforehand */}
-      <th scope="row">3</th>
-      <td>
-      {/* user email */}
-      </td>
-      <td>
-      {/* user points */}
-      </td>
-    </tr>
-  ); 
 }
 
 const Leaderboards = withFirebase(LeaderboardsBase);

@@ -89,18 +89,18 @@ class Firebase {
     }
 
     returnAllUsers = () => {
-        return this.db.ref('/users').once('value');
-  }
-
-  returnTopTenUsers = () => {
-    return this.db.ref('/users').orderByChild('/points').limitToFirst(10).once('value');
-  }
-
-    returnAllUserSets = () => {
-        return this.db.ref('/user-sets').once('value');
+        return this.db.ref('users/').once('value');
     }
 
-    editUseraname = (newUsername) => {
+    returnTopTenUsers = () => {
+        return this.db.ref('users/').orderByChild('points/').limitToFirst(10).once('value');
+    }
+
+    returnAllUserSets = () => {
+        return this.db.ref('user-sets/').once('value');
+    }
+
+    editUsername = (newUsername) => {
         var user = this.auth.currentUser;
 
         var updates = {};

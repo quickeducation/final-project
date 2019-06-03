@@ -7,7 +7,8 @@ import {
     Col,
     InputGroup,
     Input,
-    InputGroupAddon
+    InputGroupAddon,
+    Form
 } from 'reactstrap';
 // import logo from './logo.svg';
 import './App.css';
@@ -51,6 +52,23 @@ export default class App extends Component {
 
 // Main page for app
 class HomePage extends Component {
+    constructor(props) {
+        super(props); 
+        this.state = {
+            problemSetLink: "" 
+        };
+    }
+
+
+    handleSubmit = (e) => {
+        e.preventDefault(); 
+        let newProblemSetLink = e.target.problemSetLink.value; 
+        this.setState({
+            problemSetLink: newProblemSetLink
+        });
+        alert(`Getting problem set from link: ${newProblemSetLink}`);
+        // Get problem set page with the given link. 
+    }
 
   // Renders the HomePage component. Contains the Header, About and footer. 
   render() {
@@ -71,12 +89,14 @@ class HomePage extends Component {
                 <h1 className="display-3 text-center">
                     Paste your problem set link below to start!
                 </h1>
-                <InputGroup size="lg">
-                    <Input placeholder="Examplelink.quicklearning.edu" />
-                    <InputGroupAddon addonType="append">
-                        <Button color="success">Start</Button>
-                    </InputGroupAddon>
-                </InputGroup>
+                <Form onSubmit={this.handleSubmit}>
+                    <InputGroup size="lg">
+                        <Input id="problemSetLink" type="text" placeholder="Examplelink.quicklearning.edu"/>
+                        <InputGroupAddon addonType="append">
+                            <Button type="submit" color="success" tag={Link} to={this.state.problemSetLink}>Go</Button>
+                        </InputGroupAddon>
+                    </InputGroup>
+                </Form>
             </Container>
           </div>
       );
