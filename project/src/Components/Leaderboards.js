@@ -7,72 +7,41 @@ import {
 } from 'reactstrap';
 import { withFirebase } from './Firebase'; 
 
-const LeaderboardsPage = () => {
-  <main className="Container"> 
-    <LeaderboardsConst></LeaderboardsConst>
-  </main>
-}
 
-class Leaderboards extends Component {
+class LeaderboardsPage extends Component {
   render() {
     return (
       <div id="leaderboards">
         <Navbar></Navbar>
         <h3 className="text-center mt-5 mb-5">Top Solvers</h3>
-        <LeaderboardsTable></LeaderboardsTable>
+        <Leaderboards />
       </div>
     );
   }
 }
 
-class LeaderboardsTable extends Component {
+class LeaderboardsBase extends Component {
   constructor(props) {
     super(props); 
     this.state = {
       // Implement state here in the constructor. 
-      loading: false,
       users: [],
     };
   }
   
   componentDidMount() {
-    // Render
-    this.setState({ loading: true });
-    //this.props.firebase.db.collection('users').orderBy("points").limit(10);
-
-    this.props.firebase.users().on('value', snapshot => {
-      const usersObjects = snapshot.val(); 
-      
-      const usersList = Object.keys(usersObjects).map(key => ({
-        ...usersObjects[key],
-        uid: key,
-      }));
-      
-      // Sets the users as a list instead of objects to make it easier to display. 
+    // Returns a promise 
+    this.props.firebase.returnTopTenUsers() 
+    .then((snapshot) => {
+      let users = snapshot.val(); 
       this.setState({
-        users: usersList,
-        loading: false,
+        users: users
       });
-    });
-  }
-
-  // Removes listener to avoid memory leaks 
-  componentWillUnmount() {
-    this.props.firebase.users().off(); 
+    })
+    .catch(error => console.log(error));
   }
 
   render() {
-    const users = this.state.users;
-    let rank = 1; 
-    const data = users.forEach((user) => {
-      <tr>
-        <th scope="row">{rank}</th>
-        <td>{user.email}</td>
-        <td>{user.points}</td>
-      </tr>
-      rank++; 
-    })  
-
     return (
       <Container> 
         <Col sm="12" md={{ size: 8, offset: 2 }}>
@@ -123,6 +92,6 @@ const LeaderboardRow = () => {
   ); 
 }
 
-const LeaderboardsConst = withFirebase(Leaderboards);
+const Leaderboards = withFirebase(LeaderboardsBase);
 
 export default LeaderboardsPage; 

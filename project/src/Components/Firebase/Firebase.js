@@ -89,11 +89,15 @@ class Firebase {
     }
 
     returnAllUsers = () => {
-        return this.database.ref('/users').once('value');
+        return this.db.ref('/users').once('value');
+  }
+
+  returnTopTenUsers = () => {
+    return this.db.ref('/users').orderByChild('/points').limitToFirst(10).once('value');
   }
 
     returnAllUserSets = () => {
-        return this.database.ref('/user-sets').once('value');
+        return this.db.ref('/user-sets').once('value');
     }
 
     editUseraname = (newUsername) => {
@@ -102,7 +106,7 @@ class Firebase {
         var updates = {};
         updates['/users/' + user.uid + '/email'] = newUsername;
 
-        return this.database.ref().update(updates);
+        return this.db.ref().update(updates);
     }
 
 }

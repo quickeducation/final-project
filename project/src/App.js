@@ -20,7 +20,7 @@ import {
 import Navbar from './Components/Navbar'; 
 import CreateAccount from './Components/CreateAccount';
 import MyAccount from './Components/MyAccount';
-import Leaderboards from './Components/Leaderboards';
+import LeaderboardsPage from './Components/Leaderboards';
 import LandingPage from './Components/LandingPage';
 import SignUpPage from './Components/SignUp/'
 import CreateProblemSetPage from './Components/CreateProblemSet';
@@ -38,7 +38,7 @@ export default class App extends Component {
                   <Route exact path='/landingPage' component={LandingPage} />
                   <Route exact path='/createAccount' component={CreateAccount} />
                   <Route exact path='/myAccount' component={MyAccount} />
-                  <Route exact path='/leaderboards' component={Leaderboards} />
+                  <Route exact path='/leaderboards' component={LeaderboardsPage} />
                   <Route exact path='/login' component={SignUpPage} />
                   <Route exact path='/createset' component={CreateProblemSetPage} />
                   <Route component={LandingPage} />
