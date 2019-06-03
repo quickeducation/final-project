@@ -44,9 +44,29 @@ class NavbarFeatures extends Component {
                 <NavbarBrand tag={Link} to="/">QuickEducation</NavbarBrand>
                 <NavbarToggler onClick={this.toggle} aria-label="Navbar Toggle"/>
                 <Collapse isOpen={this.state.isOpen} navbar>
-                    <NavItems user={user}/>
+                <Nav className="ml-auto" navbar>
+                    <NavItem>
+                    <NavLink tag={Link} to="/home">Home</NavLink>
+                    </NavItem>
+                    {!user ? <NavItem>
+                                <NavLink tag={Link} to="/login">Log in</NavLink>
+                            </NavItem> : <div></div>}
+                    {!user ? <NavItem>
+                                <NavLink tag={Link} to="/createAccount">Create Account</NavLink>
+                            </NavItem> : <div></div>}
+                    {user ? <NavItem>
+                                <NavLink tag={Link} to="/myAccount">My Account</NavLink>
+                            </NavItem> : <div></div>}
+                    <NavItem>
+                        <NavLink tag={Link} to="/leaderboards">Leaderboards</NavLink>
+                    </NavItem>
+                    {user ? <NavItem>
+                                <NavLink id="signout" tag={Link} to="/signout">Log Out</NavLink>
+                            </NavItem> : <div></div>}
+                </Nav>
                 </Collapse>
                 </Navbar>
+
             </nav>
         );
     }

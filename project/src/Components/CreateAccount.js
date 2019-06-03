@@ -35,13 +35,14 @@ class CreateAccountFormBase extends Component {
         if (!this.isValidEmail(email)) {
             alert("Invalid email address");
             return;
-        } else  {
+        } else {
           this.props.firebase
           .doCreateUserWithEmailAndPassword(email, password)
           .then(authUser => {
               this.setState({ ...INITIAL_STATE });
               console.log("signed in redirect them....");
-              this.props.history.push('/home');
+              this.props.history.push('/login'); 
+              return true;
           })
           .catch(error => {
               console.log(error);
@@ -56,10 +57,10 @@ class CreateAccountFormBase extends Component {
     
       render() {
         const {email, password, error} = this.state;
-        let currentUser = this.props.firebase.auth.currentUser;
-        if (currentUser) {
-            this.props.history.push('/home');
-        }
+        // let currentUser = this.props.firebase.auth.currentUser;
+        // if (currentUser) {
+        //     this.props.history.push('/home');
+        // }
         return (
         <form onSubmit={this.onSubmit}>
             <input

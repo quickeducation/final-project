@@ -20,37 +20,52 @@ class Firebase {
     }
 
     doCreateUserWithEmailAndPassword = (email, password) => {
-        this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          if (errorCode == 'auth/weak-password') {
-            alert('The password is too weak.');
-          } else {
-            alert(errorMessage);
-          }
-          console.log(error);
-        });
-        this.db.ref('users/' + this.auth.currentUser).set({
-          email: email,
-          score : 0
+        return new Promise((resolve, reject) => {
+          this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode == 'auth/weak-password') {
+              alert('The password is too weak.');
+              reject("The password is too weak.")
+            } else {
+              alert(errorMessage);
+              reject(errorMessage);
+            }
+            console.log(error);
+          });
+          this.db.ref('users/' + this.auth.currentUser.uid).set({
+            email: email,
+            score : 0
+          });
+          resolve(true);
         });
     }
 
-    doSignInWithEmailAndPassword = (email, password) => {     
-      this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        if (errorCode === 'auth/wrong-password') {
-          alert('Wrong password.');
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
+    doSignInWithEmailAndPassword = (email, password) => {  
+      let errorMsg = "";   
+      return new Promise((resolve, reject) => {
+        this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+            errorMsg = "Wrong password";
+          } else {
+            alert(errorMessage);
+            errorMsg = errorMessage;
+          }
+          reject(errorMsg);
+          console.log(error);
+        });
+        resolve(true)
       });
     }
 
     doSignOut = () => {
-        this.auth.signOut();
+        return new Promise((resolve, reject) => {
+          this.auth.signOut();
+          resolve(true);
+        });
     }
 
     isSignedIn = () => {

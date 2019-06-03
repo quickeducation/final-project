@@ -42,7 +42,7 @@ class LoginFormBase extends Component {
                 this.setState({ ...INITIAL_STATE });
                 console.log("signed in redirect them....");
                 this.props.history.push('/home');
-    
+                return true;
             })
             .catch(error => {
                 console.log(error);
@@ -58,9 +58,9 @@ class LoginFormBase extends Component {
       render() {
         const {email, password, error} = this.state;
         let currentUser = this.props.firebase.auth.currentUser;
-        if (currentUser) {
-            this.props.history.push('/home');
-        }
+        // if (currentUser) {
+        //     this.props.history.push('/home');
+        // }
         return (
         <form onSubmit={this.onSubmit}>
             <input
