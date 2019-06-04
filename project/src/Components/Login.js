@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Components/Firebase/context';
-import NavbarFeatures from '../Components/Navbar';
+import NavbarPage from '../Components/Navbar';
 
 const LoginPage = () => (
     <div id="login">
-        <NavbarFeatures />
+        <NavbarPage />
         <p>Enter your email and password below to sign in</p>
         <LoginForm />
     </div>

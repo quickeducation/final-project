@@ -18,7 +18,7 @@ import {
     Switch, 
     Link
 } from 'react-router-dom';
-import Navbar from './Components/Navbar'; 
+import NavbarPage from './Components/Navbar'; 
 import CreateAccount from './Components/CreateAccount';
 import LoginPage from './Components/Login';
 import MyAccount from './Components/MyAccount';
@@ -38,11 +38,11 @@ export default class App extends Component {
                   <Route exact path='/home' component={HomePage} />
                   <Route exact path='/createAccount' component={CreateAccount} />
                   <Route exact path='/myAccount' component={MyAccount} />
-
                   <Route exact path='/login' component={LoginPage} />
                   <Route exact path='/createset' component={CreateProblemSetPage} />
                   <Route exact path='/signout' component={SignOut} />
                   <Route exact path='/leaderboards' component={LeaderboardsPage} />
+                  <Route exact path='/landing' component={LandingPage} />
                   <Route component={LandingPage} />
               </Switch>
           </Router>
@@ -75,7 +75,7 @@ class HomePage extends Component {
   render() {
       return (
           <div id="main">
-            <Navbar></Navbar>
+            <NavbarPage></NavbarPage>
             <Container className="text-center mt-5 mb-5">
                 <Row>
                     <Col>

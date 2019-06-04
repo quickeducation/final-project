@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar'; 
+import NavbarPage from './Navbar'; 
 import {
   Button,
   Container,
@@ -14,7 +14,7 @@ export default class LandingPage extends Component {
   render() {
     return (
       <div id="leaderboards">
-        <Navbar></Navbar>
+        <NavbarPage></NavbarPage>
         <Container className="text-center mt-5 mb-5">
             <Row>
                 <Col>
