@@ -20,28 +20,29 @@ import {
 } from 'react-router-dom';
 import Navbar from './Components/Navbar'; 
 import CreateAccount from './Components/CreateAccount';
+import LoginPage from './Components/Login';
 import MyAccount from './Components/MyAccount';
 import LeaderboardsPage from './Components/Leaderboards';
 import LandingPage from './Components/LandingPage';
-import SignUpPage from './Components/SignUp/'
 import CreateProblemSetPage from './Components/CreateProblemSet';
+import SignOut from './Components/Signout';
 
 
 // Component App that represents the main application and routes to the homepage and about page
 // depending on what the user chooses in the navigation bar. Defaults to the landing page
 export default class App extends Component {
-  // Renders the App component
   render() {
       return (
           <Router basename={process.env.PUBLIC_URL+'/'}>
               <Switch>
                   <Route exact path='/home' component={HomePage} />
-                  <Route exact path='/landingPage' component={LandingPage} />
                   <Route exact path='/createAccount' component={CreateAccount} />
                   <Route exact path='/myAccount' component={MyAccount} />
-                  <Route exact path='/leaderboards' component={LeaderboardsPage} />
-                  <Route exact path='/login' component={SignUpPage} />
+
+                  <Route exact path='/login' component={LoginPage} />
                   <Route exact path='/createset' component={CreateProblemSetPage} />
+                  <Route exact path='/signout' component={SignOut} />
+                  <Route exact path='/leaderboards' component={LeaderboardsPage} />
                   <Route component={LandingPage} />
               </Switch>
           </Router>
@@ -70,7 +71,7 @@ class HomePage extends Component {
         // Get problem set page with the given link. 
     }
 
-  // Renders the HomePage component. Contains the Header, About and footer. 
+  // Renders the HomePage component. Contains the navigation bar.
   render() {
       return (
           <div id="main">
@@ -102,27 +103,3 @@ class HomePage extends Component {
       );
   }
 }
-
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
