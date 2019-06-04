@@ -3,11 +3,11 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Components/Firebase/context';
 import NavbarFeatures from '../Components/Navbar';
 
-const CreateAccountPage = () => (
+const LoginPage = () => (
     <div id="login">
         <NavbarFeatures />
         <p>Enter your email and password below to sign in</p>
-        <CreateAccountForm />
+        <LoginForm />
     </div>
   );
   
@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 };
   
     
-class CreateAccountFormBase extends Component {
+class LoginFormBase extends Component {
     constructor(props) {
         super(props);
         this.state = { ...INITIAL_STATE };
@@ -35,19 +35,19 @@ class CreateAccountFormBase extends Component {
         if (!this.isValidEmail(email)) {
             alert("Invalid email address");
             return;
-        } else {
-          this.props.firebase
-          .doCreateUserWithEmailAndPassword(email, password)
-          .then(authUser => {
-              this.setState({ ...INITIAL_STATE });
-              console.log("signed in redirect them....");
-              this.props.history.push('/login'); 
-              return true;
-          })
-          .catch(error => {
-              console.log(error);
-              this.setState({ error });
-          });
+        } else  {
+            this.props.firebase
+            .doSignInWithEmailAndPassword(email, password)
+            .then(authUser => {
+                this.setState({ ...INITIAL_STATE });
+                console.log("signed in redirect them....");
+                this.props.history.push('/home');
+                return true;
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({ error });
+            });
         }
       }
     
@@ -57,7 +57,7 @@ class CreateAccountFormBase extends Component {
     
       render() {
         const {email, password, error} = this.state;
-        // let currentUser = this.props.firebase.auth.currentUser;
+        let currentUser = this.props.firebase.auth.currentUser;
         // if (currentUser) {
         //     this.props.history.push('/home');
         // }
@@ -77,7 +77,7 @@ class CreateAccountFormBase extends Component {
             type="password"
             placeholder="Password"
             />
-            <button id="signUp" type="submit">Sign Up</button>
+            <button id="login" type="submit">Log in</button>
             {error && <p>{error.message}</p>}
         </form>
         );
@@ -85,6 +85,7 @@ class CreateAccountFormBase extends Component {
 }
 
 
-const CreateAccountForm = withRouter(withFirebase(CreateAccountFormBase));
+const LoginForm = withRouter(withFirebase(LoginFormBase));
 
-export default CreateAccountPage
+export default LoginPage;
+

@@ -20,33 +20,48 @@ class Firebase {
     }
 
     doCreateUserWithEmailAndPassword = (email, password) => {
-        return this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          if (errorCode === 'auth/weak-password') {
-            alert('The password is too weak.');
-          } else {
-            alert(errorMessage);
-          }
-          console.log(error);
+        return new Promise((resolve, reject) => {
+          this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode == 'auth/weak-password') {
+              alert('The password is too weak.');
+              reject("The password is too weak.")
+            } else {
+              alert(errorMessage);
+              reject(errorMessage);
+            }
+            console.log(error);
+          });
+          resolve(true);
         });
     }
 
-    doSignInWithEmailAndPassword = (email, password) => {     
-      return this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        if (errorCode === 'auth/wrong-password') {
-          alert('Wrong password.');
-        } else {
-          alert(errorMessage);
-        }
-        console.log(error);
+    doSignInWithEmailAndPassword = (email, password) => {  
+      let errorMsg = "";   
+      return new Promise((resolve, reject) => {
+        this.auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+            errorMsg = "Wrong password";
+          } else {
+            alert(errorMessage);
+            errorMsg = errorMessage;
+          }
+          reject(errorMsg);
+          console.log(error);
+        });
+        resolve(true)
       });
     }
 
     doSignOut = () => {
-        this.auth.signOut();
+        return new Promise((resolve, reject) => {
+          this.auth.signOut();
+          resolve(true);
+        });
     }
 
     isSignedIn = () => {
@@ -112,15 +127,36 @@ class Firebase {
               let ref = this.db.ref('users/' + user.uid)
               ref.remove()
                   .then(function() {
-                    console.log("Remove succeeded.")
+                    alert("Remove succeeded.")
                   })
                   .catch(function(error) {
-                    console.log("Remove failed: " + error.message)
+                    alert("Remove failed: " + error.message)
                   });
             }).catch(function(error) {
               alert('Could not delete the user');
             });
         }
+    }
+
+    returnAllUsers = () => {
+        return this.db.ref('users/').once('value');
+    }
+
+    returnTopTenUsers = () => {
+        return this.db.ref('users/').orderByChild('points/').limitToFirst(10).once('value');
+    }
+
+    returnAllUserSets = () => {
+        return this.db.ref('user-sets/').once('value');
+    }
+
+    editUsername = (newUsername) => {
+        var user = this.auth.currentUser;
+
+        var updates = {};
+        updates['/users/' + user.uid + '/email'] = newUsername;
+
+        return this.db.ref().update(updates);
     }
 
 }

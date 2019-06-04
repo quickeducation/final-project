@@ -5,58 +5,67 @@ import {
   Container,
   Col
 } from 'reactstrap';
+import { withFirebase } from './Firebase'; 
 
 
-export default class Leaderboards extends Component {
-  constructor() {
-    super(); 
-    this.state = {
-      data: [{
-        id: 1,
-        name: "Simon Bailey"
-      }, {
-        id: 2,
-        name: "Thomas Burleson"
-      }, {
-        id: 3,
-        name: "Will Button"
-      }, {
-        id: 4,
-        name: "Ben Clinkinbeard"
-      }, {
-        id: 5,
-        name: "Kent Dodds"
-      }, {
-        id: 6,
-        name: "Trevor Ewen"
-      }, {
-        id: 7,
-        name: "Aaron Frost"
-      }, {
-        id: 8,
-        name: "Joel Hooks"
-      }, {
-        id: 9,
-        name: "Jafar Husain"
-      }, {
-        id: 10,
-        name: "Tim Kindberg"
-      }]
-    }
-  }
-  
+class LeaderboardsPage extends Component {
   render() {
     return (
       <div id="leaderboards">
         <Navbar></Navbar>
         <h3 className="text-center mt-5 mb-5">Top Solvers</h3>
-        <LeaderboardsTable></LeaderboardsTable>
+        <Leaderboards />
       </div>
     );
   }
 }
 
-class LeaderboardsTable extends Component {
+const TEST_STATE = {
+  users: [
+    {
+      email: "a@uw.edu",
+      points: 10,
+      uid: 1111
+    },
+    {
+      email: "b@uw.edu",
+      points: 10,
+      uid: 1222
+    },
+    {
+      email: "c@uw.edu",
+      points: 10,
+      uid: 13333
+    },
+    {
+      email: "d@uw.edu",
+      points: 10,
+      uid: 14444
+    }
+  ]
+}
+
+class LeaderboardsBase extends Component {
+  constructor(props) {
+    super(props); 
+    this.state = {
+      ...TEST_STATE
+    };
+  }
+  
+  componentDidMount() {
+    // Returns a promise 
+    this.props.firebase
+    .returnAllUsers() 
+    .then((snapshot) => {
+      let users = snapshot.val(); 
+      this.setState({
+        users: users
+      });
+    })
+    .catch(error => console.log(error));
+  }
+
   render() {
     return (
       <Container> 
@@ -70,21 +79,15 @@ class LeaderboardsTable extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>rwieruch</td>
-                <td>9999999</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Ajay</td>
-                <td>9999998</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td>Name3</td>
-                <td>1</td>
-              </tr>
+              {this.state.users.map((user, i) => {
+                return (
+                  <tr key={user.uid}>
+                    <th scope="row">{i + 1}</th>
+                    <td>{user.email}</td>
+                    <td>{user.points}</td>
+                  </tr>
+                );
+              })}
             </tbody>
         </Table>
       </Col>
@@ -93,17 +96,6 @@ class LeaderboardsTable extends Component {
   }
 }
 
-const LeaderboardRow = (props) => {
-  return (
-    <tr>
-      {/* The row number needs to be calulated beforehand */}
-      <th scope="row">3</th>
-      <td>
-        { props.data.username }
-      </td>
-      <td>
-        { props.data.points }
-      </td>
-    </tr>
-  ); 
-}
+const Leaderboards = withFirebase(LeaderboardsBase);
+
+export default LeaderboardsPage; 
