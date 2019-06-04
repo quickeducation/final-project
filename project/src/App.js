@@ -35,7 +35,7 @@ export default class App extends Component {
       return (
           <Router basename={process.env.PUBLIC_URL+'/'}>
               <Switch>
-                  <Route exact path='/home' component={HomePage} />
+                  <Route exact path='/home' component={LandingPage} />
                   <Route exact path='/createAccount' component={CreateAccount} />
                   <Route exact path='/myAccount' component={MyAccount} />
                   <Route exact path='/login' component={LoginPage} />
