@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../Components/Firebase/context';
-import NavbarFeatures from '../Components/Navbar';
+import NavbarPage from '../Components/Navbar';
+import {Redirect } from 'react-router-dom';
 
 const LoginPage = () => (
     <div id="login">
-        <NavbarFeatures />
+        <NavbarPage />
         <p>Enter your email and password below to sign in</p>
         <LoginForm />
     </div>
@@ -58,29 +59,33 @@ class LoginFormBase extends Component {
       render() {
         const {email, password, error} = this.state;
         let currentUser = this.props.firebase.auth.currentUser;
-        // if (currentUser) {
-        //     this.props.history.push('/home');
-        // }
-        return (
-        <form onSubmit={this.onSubmit}>
-            <input
-            name="email"
-            value={email}
-            onChange={this.onChange}
-            type="text"
-            placeholder="Email Address"
-            />
-            <input
-            name="password"
-            value={password}
-            onChange={this.onChange}
-            type="password"
-            placeholder="Password"
-            />
-            <button id="login" type="submit">Log in</button>
-            {error && <p>{error.message}</p>}
-        </form>
-        );
+        if (currentUser) {
+          return (
+            <Redirect to={{pathname:"/home"}} />
+          );
+        } else {
+          return (
+            <form onSubmit={this.onSubmit}>
+                <input
+                name="email"
+                value={email}
+                onChange={this.onChange}
+                type="text"
+                placeholder="Email Address"
+                />
+                <input
+                name="password"
+                value={password}
+                onChange={this.onChange}
+                type="password"
+                placeholder="Password"
+                />
+                <button id="login" type="submit">Log in</button>
+                {error && <p>{error.message}</p>}
+            </form>
+            );
+        }
+        
       }
 }
 

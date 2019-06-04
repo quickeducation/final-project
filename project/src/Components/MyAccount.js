@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar'; 
+import NavbarPage from './Navbar'; 
 import {
   Table,
   Container,
@@ -18,7 +18,7 @@ class MyAccountPage extends Component {
   render() {
     return (
       <div id="myAccount">
-        <Navbar></Navbar>
+        <NavbarPage></NavbarPage>
         <h3 className="text-center mt-5 mb-5">Account Details</h3>
         <MyAccount/>
       </div>
