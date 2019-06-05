@@ -33,15 +33,11 @@ class LeaderboardsBase extends Component {
     this.props.firebase
     .returnTopTenUsers() 
     .then((snapshot) => {
-      let newUsers = []; 
-      snapshot.forEach((child) => {
-        newUsers.push(child.val()); 
-      })
+      let newUsers = snapshot.val(); 
       let newUsersList = [];
       for (let uid in newUsers) {
         newUsersList.push([uid, newUsers[uid]]); 
       }
-      newUsersList = newUsersList.reverse();
       this.setState({
         users: newUsersList
       });
@@ -63,15 +59,12 @@ class LeaderboardsBase extends Component {
             </thead>
             <tbody>
               {this.state.users.map((user, i) => {
-                let currentUserEmail = user[1].email;
-                let indexOfSymbol = currentUserEmail.indexOf("@");
-                let truncatedEmail = currentUserEmail.substring(0, indexOfSymbol); 
                 return (
                   // user[0] is the User ID from firebase
                   // user[1] is the User Object { email, score }
                   <tr key={user[0]}>
                     <th scope="row">{i + 1}</th>
-                    <td>{truncatedEmail}</td>
+                    <td>{user[1].email}</td>
                     <td>{user[1].score}</td>
                   </tr>
                 );
