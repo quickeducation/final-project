@@ -15,7 +15,7 @@ class CreateProblemSetBase extends Component {
         this.state = {
             title: "",
             questionAnswerPairs : [{Question:"", Answer:""}],
-            setID: null
+            setID: null,
          };
     }
 

@@ -3,20 +3,20 @@ import 'firebase/auth';
 import 'firebase/database'
 
 const config = {
-    apiKey: "AIzaSyAH7XCKlraO6k5zeoW9jCpqPgQwXBSydhw",
-    authDomain: "tester-7bc61.firebaseapp.com",
-    databaseURL: "https://tester-7bc61.firebaseio.com",
-    projectId: "tester-7bc61",
-    storageBucket: "tester-7bc61.appspot.com",
-    messagingSenderId: "244317548908",
-    appId: "1:244317548908:web:3bde08538be9dda7"
+  apiKey: "AIzaSyAH7XCKlraO6k5zeoW9jCpqPgQwXBSydhw",
+  authDomain: "tester-7bc61.firebaseapp.com",
+  databaseURL: "https://tester-7bc61.firebaseio.com",
+  projectId: "tester-7bc61",
+  storageBucket: "tester-7bc61.appspot.com",
+  messagingSenderId: "244317548908",
+  appId: "1:244317548908:web:3bde08538be9dda7"
 };
 
 class Firebase {
     constructor() {
         app.initializeApp(config);
         this.auth = app.auth();
-        this.db = app.database()
+        this.db = app.database();
     }
 
     doCreateUserWithEmailAndPassword = (email, password) => {

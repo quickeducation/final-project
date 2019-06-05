@@ -25,6 +25,7 @@ class NavbarFeatures extends Component {
         this.toggle = this.toggle.bind(this);
         this.state = {
             isOpen: false,
+            isUserLoggedIn:false,
         };
     }
     
@@ -35,9 +36,18 @@ class NavbarFeatures extends Component {
         });
     }
 
+    componentWillMount() {
+        let isLoggedIn = this.props.firebase.isSignedIn();
+        if (isLoggedIn) {
+            this.setState({
+                isUserLoggedIn : isLoggedIn
+            })
+        }
+    }
+
 
     render() {
-        let user = this.props.firebase.auth.currentUser;
+        let user = this.state.isUserLoggedIn;
         return (
             <nav>
                 <Navbar color="light" light expand="md">
@@ -76,41 +86,6 @@ class NavbarFeatures extends Component {
     }
 }
 
-// Component that represents the navigation bar items. These items can be clicked on and the user will be navigated to
-// the various paths. 
-class NavItems extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: props.user,
-        };
-    }   
-
-    render() {
-        return(
-            <Nav className="ml-auto" navbar>
-                <NavItem>
-                    <NavLink tag={Link} to="/home">Home</NavLink>
-                </NavItem>
-                {!this.user ? <NavItem>
-                            <NavLink tag={Link} to="/login">Log in</NavLink>
-                        </NavItem> : <div></div>}
-                {!this.user ? <NavItem>
-                            <NavLink tag={Link} to="/createAccount">Create Account</NavLink>
-                        </NavItem> : <div></div>}
-                {this.user ? <NavItem>
-                            <NavLink tag={Link} to="/myAccount">My Account</NavLink>
-                        </NavItem> : <div></div>}
-                <NavItem>
-                    <NavLink tag={Link} to="/leaderboards">Leaderboards</NavLink>
-                </NavItem>
-                {this.user ? <NavItem>
-                            <NavLink id="signout" tag={Link} to="/signout">Log Out</NavLink>
-                        </NavItem> : <div></div>}
-            </Nav>
-        );
-    }
-}
 
 const NavbarComponent = withFirebase(NavbarFeatures);
 

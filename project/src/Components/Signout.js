@@ -20,6 +20,7 @@ class SignOut extends Component {
             })
         } else {
             // No user is signed in.
+            console.log("no user");
         };
   
       return (
