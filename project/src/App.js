@@ -16,8 +16,10 @@ import {
     BrowserRouter as Router, 
     Route, 
     Switch, 
-    Link
+    Link,
+    Redirect
 } from 'react-router-dom';
+import { withFirebase } from './Components/Firebase';
 import NavbarPage from './Components/Navbar'; 
 import CreateAccount from './Components/CreateAccount';
 import LoginPage from './Components/Login';
@@ -38,19 +40,18 @@ export default class App extends Component {
       return (
           <Router basename={process.env.PUBLIC_URL+'/'}>
               <Switch>
-                  <Route exact path='/home' component={LandingPage} />
+                  <Route exact path='/home' component={HomePage} />
                   <Route exact path='/createAccount' component={CreateAccount} />
                   <Route exact path='/myAccount' component={MyAccount} />
                   <Route exact path='/login' component={LoginPage} />
                   <Route exact path='/createset' component={CreateProblemSetPage} />
-                  <Route exact path='/answerset' component={AnswerProblemSetPage} />
+                  <Route exact path='/answerset' component  ={AnswerProblemSetPage} />
                   <Route exact path='/submitted' component={SubmittedAnswersPage} />
                   <Route exact path='/reviewset' component={ReviewSetPage} />
-                  <Route component={HomePage} />
                   <Route exact path='/signout' component={SignOut} />
                   <Route exact path='/leaderboards' component={LeaderboardsPage} />
                   <Route exact path='/landing' component={LandingPage} />
-                  <Route component={LandingPage} />
+                  <Route component={HomePage} />
               </Switch>
           </Router>
       );
@@ -59,11 +60,12 @@ export default class App extends Component {
 
 
 // Main page for app
-class HomePage extends Component {
+class HomePageBase extends Component {
     constructor(props) {
         super(props); 
         this.state = {
-            problemSetLink: "" 
+            problemSetLink: "",
+            isUserSignedIn:false,
         };
     }
 
@@ -78,8 +80,22 @@ class HomePage extends Component {
         // Get problem set page with the given link. 
     }
 
+    componentWillMount() {
+        let signedIn = this.props.firebase.isSignedIn();
+        if (signedIn) {
+            this.setState({
+                isUserSignedIn:signedIn
+            })
+        }
+    }
+
   // Renders the HomePage component. Contains the navigation bar.
   render() {
+      if (!this.state.isUserSignedIn) {
+        return (
+            <Redirect to="/landing"/>
+        )
+      }
       return (
           <div id="main">
             <NavbarPage></NavbarPage>
@@ -109,4 +125,14 @@ class HomePage extends Component {
           </div>
       );
   }
+}
+
+const HomePageWithFireBase = withFirebase(HomePageBase);
+
+class HomePage extends Component {
+    render() {
+        return(
+            <HomePageWithFireBase />
+        )
+    }
 }
