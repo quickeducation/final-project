@@ -143,7 +143,7 @@ class Firebase {
     }
 
     returnTopTenUsers = () => {
-        return this.db.ref('users/').orderByChild('points/').limitToFirst(10).once('value');
+        return this.db.ref('users/').orderByChild('score/').limitToLast(10).once('value');
     }
 
     returnAllUserSets = () => {
