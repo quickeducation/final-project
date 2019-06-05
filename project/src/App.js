@@ -80,16 +80,19 @@ class HomePage extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault(); 
-        let newProblemSetLink = e.target.problemSetLink.value;
-        console.log("test")
+        let newProblemSetLink = "/answerset?setID=" + e.target.problemSetLink.value;
         this.setState({
             problemSetLink: newProblemSetLink
         });
-        alert(`Getting problem set from link: ${newProblemSetLink}`);
         // Get problem set page with the given link. 
     }
 
     render() {
+        if (this.state.problemSetLink !== "") {
+            return (
+                <Redirect to={this.state.problemSetLink}/>
+            )
+        }
         return(
             <div id="main">
                 <NavbarPage></NavbarPage>
@@ -111,7 +114,7 @@ class HomePage extends Component {
                         <InputGroup size="lg">
                             <Input id="problemSetLink" type="text" placeholder="-ExampleID"/>
                             <InputGroupAddon addonType="append">
-                                <Button type="submit" color="success" tag={Link} to={this.state.problemSetLink}>Go</Button>
+                                <Button type="submit" color="success" >Go</Button>
                             </InputGroupAddon>
                         </InputGroup>
                     </Form>
