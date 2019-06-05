@@ -60,7 +60,7 @@ class LeaderboardsBase extends Component {
             <tbody>
               {this.state.users.map((user, i) => {
                 return (
-                  // user[0] is the User ID
+                  // user[0] is the User ID from firebase
                   // user[1] is the User Object { email, score }
                   <tr key={user[0]}>
                     <th scope="row">{i + 1}</th>
