@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import {AuthUserContext} from './Session';
 
 const CreateProblemSetPage = () => (
-    <main className="container">
-        <h2>Create A Problem Set</h2>
-        <CreateProblemSet />
-    </main>
+    <AuthUserContext.Consumer> 
+            { authUser => {
+                if (authUser) {
+                    return (
+                    <div>
+                        <main className="container">
+                            <h2>Create A Problem Set</h2>
+                            <CreateProblemSet />
+                        </main>
+                    </div>
+                    )
+                }
+                return <Redirect to="/"/>
+                }
+            }
+    </AuthUserContext.Consumer> 
 )
 
 class CreateProblemSetBase extends Component {

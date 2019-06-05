@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
 import { Redirect } from 'react-router-dom';
+import { AuthUserContext } from './Session';
 
 class AnswerProblemSetPage extends Component {
     render() {
         let setID = this.getQueryStringParams(this.props.location.search).setID;
         return (
-            <main className="container">
-                <AnswerProblemSet setID={setID}/>
-            </main>
+            <AuthUserContext.Consumer> 
+            { authUser => {
+                if (authUser) {
+                    return (
+                    <main className="container">
+                        <AnswerProblemSet setID={setID}/>
+                    </main>
+                    )
+                }
+                return <Redirect to="/"/>
+                }
+            }
+            </AuthUserContext.Consumer> 
         )
     }
 

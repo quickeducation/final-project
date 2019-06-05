@@ -19,7 +19,6 @@ import {
     Link,
     Redirect
 } from 'react-router-dom';
-import { withFirebase } from './Components/Firebase';
 import NavbarPage from './Components/Navbar'; 
 import CreateAccount from './Components/CreateAccount';
 import LoginPage from './Components/Login';
@@ -65,8 +64,6 @@ class Home extends Component {
         { authUser => 
             authUser ? <HomePage /> : <LandingPage />
         }
-      
-         
           </AuthUserContext.Consumer>
       );
   }
