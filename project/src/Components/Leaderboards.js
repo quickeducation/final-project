@@ -20,47 +20,26 @@ class LeaderboardsPage extends Component {
   }
 }
 
-const TEST_STATE = {
-  users: [
-    {
-      email: "a@uw.edu",
-      points: 10,
-      uid: 1111
-    },
-    {
-      email: "b@uw.edu",
-      points: 10,
-      uid: 1222
-    },
-    {
-      email: "c@uw.edu",
-      points: 10,
-      uid: 13333
-    },
-    {
-      email: "d@uw.edu",
-      points: 10,
-      uid: 14444
-    }
-  ]
-}
-
 class LeaderboardsBase extends Component {
   constructor(props) {
     super(props); 
     this.state = {
-      ...TEST_STATE
+      users: []
     };
   }
   
   componentDidMount() {
     // Returns a promise 
     this.props.firebase
-    .returnAllUsers() 
+    .returnTopTenUsers() 
     .then((snapshot) => {
-      let users = snapshot.val(); 
+      let newUsers = snapshot.val(); 
+      let newUsersList = [];
+      for (let uid in newUsers) {
+        newUsersList.push([uid, newUsers[uid]]); 
+      }
       this.setState({
-        users: users
+        users: newUsersList
       });
     })
     .catch(error => console.log(error));
@@ -81,10 +60,12 @@ class LeaderboardsBase extends Component {
             <tbody>
               {this.state.users.map((user, i) => {
                 return (
-                  <tr key={user.uid}>
+                  // user[0] is the User ID
+                  // user[1] is the User Object { email, score }
+                  <tr key={user[0]}>
                     <th scope="row">{i + 1}</th>
-                    <td>{user.email}</td>
-                    <td>{user.points}</td>
+                    <td>{user[1].email}</td>
+                    <td>{user[1].score}</td>
                   </tr>
                 );
               })}
