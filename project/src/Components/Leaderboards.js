@@ -38,6 +38,11 @@ class LeaderboardsBase extends Component {
         newUsers.push(child.val()); 
       })
       let newUsersList = [];
+      // Not actually getting uids here, 
+      // difficult to insert the correct pairs of
+      // uids and user objects because the firebase 
+      // query only sorts the child.val() of the snapshot
+      // and not the snapshot key which is the uid. 
       for (let uid in newUsers) {
         newUsersList.push([uid, newUsers[uid]]); 
       }

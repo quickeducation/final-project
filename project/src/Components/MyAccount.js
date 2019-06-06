@@ -8,7 +8,6 @@ import {
   InputGroup,
   Input,
   InputGroupAddon,
-  FormGroup,
   Form
 } from 'reactstrap';
 import { withFirebase } from './Firebase/context'; 
@@ -26,9 +25,11 @@ class MyAccountPage extends Component {
   }
 }
 
-const TEST_STATE = {
-  email: "example@example.edu",
-  points: 999999,
+const DEFAULT_STATE = {
+  user: {
+    email: "",
+    score: 0
+  },
   editEmail: false
 }
 
@@ -36,11 +37,45 @@ class MyAccountBase extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ...TEST_STATE
+      ...DEFAULT_STATE
     };
   }
 
-  toggleEditEmail = (e) => {
+  componentDidMount() {
+    this.updateState(); 
+  }
+
+  updateState = () => {
+    // Remove this if statement after we get the login stuff
+    // situated and figured out. It keeps detecting the user is 
+    // null even though user was signed in. 
+    if (this.props.firebase.auth.currentUser != null) {
+      let currentUserUid = this.props.firebase.auth.currentUser.uid;
+    
+      // Currently sorts through all users here,
+      // would be better to query for single user with a 
+      // firebase function but had difficulties getting that to 
+      // work. 
+      if (this.props.firebase.auth.currentUser != null) {
+        this.props.firebase
+        .returnAllUsers() 
+        .then((snapshot) => {
+          let i = 0; 
+          snapshot.forEach((child) => {
+            if (Object.keys(snapshot.val())[i] == currentUserUid) {
+              this.setState({
+                user: child.val()
+              });
+            }
+            i++; 
+          }) 
+        })
+        .catch(error => console.log(error));
+      }
+    }
+  }
+  
+  toggleEditEmail = () => {
     this.setState({ 
       editEmail: !this.state.editEmail
     });  
@@ -50,6 +85,8 @@ class MyAccountBase extends Component {
     e.preventDefault(); 
     let newEmail = e.target.email.value;  
     this.props.firebase.editUsername(newEmail);
+    this.updateState(); 
+    this.toggleEditEmail(); 
   }
 
   handleDelete = (e) => {
@@ -60,7 +97,6 @@ class MyAccountBase extends Component {
   render() {
     const editClicked = this.state.editEmail;
     let emailInput; 
-
     // Conditional Rendering: 
     // Renders the edit email form if edit button is clicked 
     // otherwise reverts to user account details. 
@@ -81,12 +117,12 @@ class MyAccountBase extends Component {
           <tbody>
             <tr>
               <th scope="row">Email:</th>
-              <td>{this.state.email}</td>
+              <td>{this.state.user.email}</td>
               <td><Button size="sm" color="primary" onClick={this.toggleEditEmail}>Edit</Button></td>
             </tr>
             <tr>
-              <th scope="row">Points:</th>
-              <td>{this.state.points}</td>
+              <th scope="row">Points Earned:</th>
+              <td>{this.state.user.score}</td>
             </tr>
           </tbody>
         </Table>
