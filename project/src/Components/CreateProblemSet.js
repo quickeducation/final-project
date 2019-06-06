@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import {AuthUserContext} from './Session';
+import NavbarPage from './Navbar';
 
 const CreateProblemSetPage = () => (
-    <main className="container">
-        <h2>Create A Problem Set</h2>
-        <CreateProblemSet />
-    </main>
+    <AuthUserContext.Consumer> 
+            { authUser => {
+                if (authUser) {
+                    return (
+                    <div>
+                        <NavbarPage />
+                        <main className="container">
+                            <h2>Create A Problem Set</h2>
+                            <CreateProblemSet />
+                        </main>
+                    </div>
+                    )
+                }
+                return <Redirect to="/"/>
+                }
+            }
+    </AuthUserContext.Consumer> 
 )
 
 class CreateProblemSetBase extends Component {
@@ -15,7 +30,7 @@ class CreateProblemSetBase extends Component {
         this.state = {
             title: "",
             questionAnswerPairs : [{Question:"", Answer:""}],
-            setID: null
+            setID: null,
          };
     }
 

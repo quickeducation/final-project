@@ -16,13 +16,29 @@ const INITIAL_STATE = {
     email: '',
     password: '',
     error: null,
+    isLoggedIn:false,
 };
   
     
 class LoginFormBase extends Component {
     constructor(props) {
         super(props);
-        this.state = { ...INITIAL_STATE };
+        let isSignedIn = this.props.firebase.isSignedIn();
+        this.state = { 
+          email: '',
+          password: '',
+          error: null,
+          isLoggedIn: isSignedIn
+        };
+      }
+
+      componentWillMount() {
+        let isSignedIn = this.props.firebase.isSignedIn();
+        if (isSignedIn) {
+          this.setState({
+            isLoggedIn: isSignedIn
+          });
+        }
       }
     
       isValidEmail = email => {
@@ -57,9 +73,8 @@ class LoginFormBase extends Component {
       };
     
       render() {
-        const {email, password, error} = this.state;
-        let currentUser = this.props.firebase.auth.currentUser;
-        if (currentUser) {
+        const {email, password, error, isLoggedIn} = this.state;
+        if (isLoggedIn) {
           return (
             <Redirect to={{pathname:"/home"}} />
           );

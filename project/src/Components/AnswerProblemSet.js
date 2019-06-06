@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
 import { Redirect } from 'react-router-dom';
+import { AuthUserContext } from './Session';
+import NavbarPage from './Navbar';
 
 class AnswerProblemSetPage extends Component {
     render() {
         let setID = this.getQueryStringParams(this.props.location.search).setID;
         return (
-            <main className="container">
-                <AnswerProblemSet setID={setID}/>
-            </main>
+            <AuthUserContext.Consumer> 
+            { authUser => {
+                if (authUser) {
+                    return (
+                    <div>
+                        <NavbarPage />
+                        <main className="container">
+                            <AnswerProblemSet setID={setID}/>
+                        </main>
+                    </div>
+                    )
+                }
+                return <Redirect to="/"/>
+                }
+            }
+            </AuthUserContext.Consumer> 
         )
     }
 

@@ -16,7 +16,7 @@ class Firebase {
     constructor() {
         app.initializeApp(config);
         this.auth = app.auth();
-        this.db = app.database()
+        this.db = app.database();
     }
 
     doCreateUserWithEmailAndPassword = (email, password) => {
@@ -58,10 +58,7 @@ class Firebase {
     }
 
     doSignOut = () => {
-        return new Promise((resolve, reject) => {
-          this.auth.signOut();
-          resolve(true);
-        });
+        return this.auth.signOut();
     }
 
     isSignedIn = () => {
@@ -101,7 +98,7 @@ class Firebase {
     }
 
     validateAnswers = (answers, setID) => {
-        const url = "https://us-central1-tester-7bc61.cloudfunctions.net/validateAnswers";
+        const url = "https://us-central1-quickeducation442.cloudfunctions.net/validateAnswers";
         let data = {uid: this.auth.currentUser.uid, setID:setID, answers:answers};
         return fetch(url, {
             method: 'Post',
@@ -143,7 +140,7 @@ class Firebase {
     }
 
     returnTopTenUsers = () => {
-        return this.db.ref('users/').orderByChild('points/').limitToFirst(10).once('value');
+        return this.db.ref('users/').orderByChild('score/').limitToLast(10).once('value');
     }
 
     returnAllUserSets = () => {
