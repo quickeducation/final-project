@@ -58,10 +58,7 @@ class Firebase {
     }
 
     doSignOut = () => {
-        return new Promise((resolve, reject) => {
-          this.auth.signOut();
-          resolve(true);
-        });
+        return this.auth.signOut();
     }
 
     isSignedIn = () => {
