@@ -3,13 +3,13 @@ import 'firebase/auth';
 import 'firebase/database'
 
 const config = {
-  apiKey: "AIzaSyAH7XCKlraO6k5zeoW9jCpqPgQwXBSydhw",
-  authDomain: "tester-7bc61.firebaseapp.com",
-  databaseURL: "https://tester-7bc61.firebaseio.com",
-  projectId: "tester-7bc61",
-  storageBucket: "tester-7bc61.appspot.com",
-  messagingSenderId: "244317548908",
-  appId: "1:244317548908:web:3bde08538be9dda7"
+  apiKey: "AIzaSyCdpm0Ucz5-t98ChULDyBt5LpNCS8MuSGw",
+  authDomain: "quickeducation442.firebaseapp.com",
+  databaseURL: "https://quickeducation442.firebaseio.com",
+  projectId: "quickeducation442",
+  storageBucket: "",
+  messagingSenderId: "78346961429",
+  appId: "1:78346961429:web:844f953c58c9d556"
 };
 
 class Firebase {
@@ -98,7 +98,7 @@ class Firebase {
     }
 
     validateAnswers = (answers, setID) => {
-        const url = "https://us-central1-tester-7bc61.cloudfunctions.net/validateAnswers";
+        const url = "https://us-central1-quickeducation442.cloudfunctions.net/validateAnswers";
         let data = {uid: this.auth.currentUser.uid, setID:setID, answers:answers};
         return fetch(url, {
             method: 'Post',
