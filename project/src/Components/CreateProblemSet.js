@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
 import { Link, Redirect } from 'react-router-dom';
 import {AuthUserContext} from './Session';
+import NavbarPage from './Navbar';
 
 const CreateProblemSetPage = () => (
     <AuthUserContext.Consumer> 
@@ -9,6 +10,7 @@ const CreateProblemSetPage = () => (
                 if (authUser) {
                     return (
                     <div>
+                        <NavbarPage />
                         <main className="container">
                             <h2>Create A Problem Set</h2>
                             <CreateProblemSet />

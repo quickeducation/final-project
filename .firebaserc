@@ -1,6 +1,7 @@
 {
   "projects": {
     "test": "tester-7bc61",
-    "default": "tester-7bc61"
+    "default": "tester-7bc61",
+    "final": "quickeducation442"
   }
 }

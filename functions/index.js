@@ -9,18 +9,18 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
-// admin.initializeApp();
+admin.initializeApp();
 
 // CORS Express middleware to enable CORS Requests.
 const cors = require('cors')({
   origin: true,
 });
 
-var serviceAccount = require("../../key.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://tester-7bc61.firebaseio.com"
-});
+// var serviceAccount = require("../../key.json");
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://.firebaseio.com"
+// });
 
 
 // // Take the text parameter passed to this HTTP endpoint and insert it into the

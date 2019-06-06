@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withFirebase } from './Firebase';
 import { Redirect } from 'react-router-dom';
 import { AuthUserContext } from './Session';
+import NavbarPage from './Navbar';
 
 class AnswerProblemSetPage extends Component {
     render() {
@@ -11,9 +12,12 @@ class AnswerProblemSetPage extends Component {
             { authUser => {
                 if (authUser) {
                     return (
-                    <main className="container">
-                        <AnswerProblemSet setID={setID}/>
-                    </main>
+                    <div>
+                        <NavbarPage />
+                        <main className="container">
+                            <AnswerProblemSet setID={setID}/>
+                        </main>
+                    </div>
                     )
                 }
                 return <Redirect to="/"/>
