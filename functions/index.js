@@ -39,7 +39,6 @@ exports.addSetToUserSets = functions.database.ref('/sets/{setKey}/')
 .onCreate((snapshot, context) => {
   // Grab the current value of what was written to the Realtime Database.
   const original = snapshot.val();
-  console.log('context param, then snapshot value', context.params.setKey, original);
   const uid = original.uid;
   const setKey = context.params.setKey;
   const numberOfQuestions = original.length;
@@ -53,9 +52,11 @@ exports.addSetToUserSets = functions.database.ref('/sets/{setKey}/')
 
 // On account creating add their score and email to users in the database.
 exports.addUserToDB = functions.auth.user().onCreate((user) => {
+  let initialDisplayName = user.email.split('@')[0];
   return admin.database().ref('/users/' + user.uid).set({
     email: user.email,
-    score:0
+    score:0,
+    displayName: initialDisplayName
   });
 });
 
