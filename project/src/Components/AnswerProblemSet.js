@@ -3,6 +3,7 @@ import { withFirebase } from './Firebase';
 import { Redirect } from 'react-router-dom';
 import { AuthUserContext } from './Session';
 import NavbarPage from './Navbar';
+import LoadingScreen from './LoadingScreen';
 
 class AnswerProblemSetPage extends Component {
     render() {
@@ -122,11 +123,7 @@ class AnswerProblemSetBase extends Component {
         }
         if (this.state.isLoading) {
             return (
-                <div className="d-flex justify-content-center mt-4">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
+                <LoadingScreen />
             );
         } else if (this.state.error) {
             return (

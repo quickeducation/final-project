@@ -10,17 +10,30 @@ import {
   InputGroupAddon,
   Form
 } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 import { withFirebase } from './Firebase/context'; 
+import LoadingScreen from './LoadingScreen';
+import { AuthUserContext } from './Session';
 
 class MyAccountPage extends Component {
 
   render() {
     return (
-      <div id="myAccount">
-        <NavbarPage></NavbarPage>
-        <h3 className="text-center mt-5 mb-5">Account Details</h3>
-        <MyAccount/>
-      </div>
+      <AuthUserContext.Consumer>
+      { authUser => {
+        if (authUser) {
+          return (
+            <div id="myAccount">
+              <NavbarPage></NavbarPage>
+              <h3 className="text-center mt-5 mb-5">Account Details</h3>
+              <MyAccount userUID={authUser.uid}/>
+            </div>
+          );
+        }
+        return <Redirect to="/"/>
+      }
+    }
+      </AuthUserContext.Consumer>
     );
   }
 }
@@ -28,9 +41,11 @@ class MyAccountPage extends Component {
 const DEFAULT_STATE = {
   user: {
     email: "",
+    displayName:"",
     score: 0
   },
-  editEmail: false
+  editEmail: false,
+  isLoading: true,
 }
 
 class MyAccountBase extends Component {
@@ -45,37 +60,18 @@ class MyAccountBase extends Component {
     this.updateState(); 
   }
 
-  updateState = () => {
-    // Remove this if statement after we get the login stuff
-    // situated and figured out. It keeps detecting the user is 
-    // null even though user was signed in. 
-    if (this.props.firebase.auth.currentUser != null) {
-      let currentUserUid = this.props.firebase.auth.currentUser.uid;
-    
-      // Currently sorts through all users here,
-      // would be better to query for single user with a 
-      // firebase function but had difficulties getting that to 
-      // work. 
-      if (this.props.firebase.auth.currentUser != null) {
-        this.props.firebase
-        .returnAllUsers() 
-        .then((snapshot) => {
-          let i = 0; 
-          snapshot.forEach((child) => {
-            if (Object.keys(snapshot.val())[i] == currentUserUid) {
-              this.setState({
-                user: child.val()
-              });
-            }
-            i++; 
-          }) 
+  updateState = () => { 
+    this.props.firebase.getUserScoreNameAndEmail(this.props.userUID)
+      .then((snapshot) => {
+        this.setState({
+          user: snapshot.val(),
+          isLoading: false
         })
-        .catch(error => console.log(error));
-      }
-    }
+      })
+      .catch(error => alert("Failed to download user data."))
   }
   
-  toggleEditEmail = () => {
+  toggleEditDisplayName = () => {
     this.setState({ 
       editEmail: !this.state.editEmail
     });  
@@ -83,10 +79,10 @@ class MyAccountBase extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault(); 
-    let newEmail = e.target.email.value;  
-    this.props.firebase.editUsername(newEmail);
+    let newDisplayName = e.target.email.value;  
+    this.props.firebase.editDisplayName(newDisplayName);
     this.updateState(); 
-    this.toggleEditEmail(); 
+    this.toggleEditDisplayName(); 
   }
 
   handleDelete = (e) => {
@@ -95,6 +91,11 @@ class MyAccountBase extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return (
+        <LoadingScreen />
+      )
+    }
     const editClicked = this.state.editEmail;
     let emailInput; 
     // Conditional Rendering: 
@@ -104,7 +105,7 @@ class MyAccountBase extends Component {
       emailInput =
       <Form onSubmit={this.handleSubmit}>
         <InputGroup size="sm">
-          <Input id="email" type="text" placeholder="Type New Email"/>
+          <Input id="email" type="text" placeholder="Type Display Name"/>
           <InputGroupAddon addonType="append">
             <Button type="submit" color="success">Submit</Button>
           </InputGroupAddon>
@@ -118,7 +119,11 @@ class MyAccountBase extends Component {
             <tr>
               <th scope="row">Email:</th>
               <td>{this.state.user.email}</td>
-              <td><Button size="sm" color="primary" onClick={this.toggleEditEmail}>Edit</Button></td>
+            </tr>
+            <tr>
+              <th scope="row">Display Name: </th>
+              <td>{this.state.user.displayName}</td>
+              <td><Button size="sm" color="primary" onClick={this.toggleEditDisplayName}>Edit</Button></td>
             </tr>
             <tr>
               <th scope="row">Points Earned:</th>
@@ -135,7 +140,7 @@ class MyAccountBase extends Component {
     return (
       <Container> 
         <Col sm="12" md={{ size: 8, offset: 2 }}>
-            {this.toggleEditEmail && emailInput}
+            {this.toggleEditDisplayName && emailInput}
         </Col>
       </Container>      
     ); 

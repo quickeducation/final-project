@@ -147,14 +147,20 @@ class Firebase {
         return this.db.ref('user-sets/').once('value');
     }
 
-    editUsername = (newUsername) => {
+    editDisplayName = (newDisplayName) => {
         var user = this.auth.currentUser;
 
         var updates = {};
-        updates['/users/' + user.uid + '/email'] = newUsername;
+        updates['/users/' + user.uid + '/displayName'] = newDisplayName;
 
         return this.db.ref().update(updates);
     }
+
+    getUserScoreNameAndEmail = (uid) => {
+      return this.db.ref(`users/${uid}`).once('value');
+    }
+
+
 
 }
 
