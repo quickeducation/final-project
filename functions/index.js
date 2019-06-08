@@ -9,18 +9,18 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access the Firebase Realtime Database.
 const admin = require('firebase-admin');
-admin.initializeApp();
+// admin.initializeApp();
 
 // CORS Express middleware to enable CORS Requests.
 const cors = require('cors')({
   origin: true,
 });
 
-// var serviceAccount = require("../../key.json");
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://.firebaseio.com"
-// });
+var serviceAccount = require("../../key.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://quickeducation442.firebaseio.com"
+});
 
 
 // // Take the text parameter passed to this HTTP endpoint and insert it into the
@@ -163,3 +163,32 @@ exports.validateAnswers = functions.https.onRequest(async(req, res) => {
 // ex)  
 // curl -H "Content-Type:application/json" http://localhost:5000/tester-7bc61/us-central1/validateAnswers -d '{"uid":"foiniWygiRYFsdoVxCZcvvE3sBx2", "setID":"-LgFGpxvBbZnjCAk_l8X", "answers":["2","100","58"]}'
 
+exports.displayNameExists = functions.https.onRequest(async(req, res) => {
+  cors(req, res, () => {});
+  let displayName;
+  displayName = req.query.displayName;
+  if (!displayName) {
+    res.sendStatus(400);
+  }
+  let snap = await admin.database().ref('users/').once('value');
+  let users = snap.val()
+  // I wrote this as a set of promises because this function could
+  // potentially be asynchronous?
+  let promises = Object.keys(users).map((userUID) => {
+    let user = users[userUID];
+    return new Promise((resolve, reject) => {
+      if (user.displayName === displayName) {
+        res.status(200).send(true);
+        return;
+      }
+      resolve();
+    });
+  });
+
+  let test = await Promise.all(promises);
+  if (test.length === 0 && promises.length !== 0) {
+    res.status(200).send(true);
+  } else {
+    res.status(200).send(false);
+  }
+});
