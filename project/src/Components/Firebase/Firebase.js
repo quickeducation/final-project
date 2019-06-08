@@ -147,13 +147,25 @@ class Firebase {
         return this.db.ref('user-sets/').once('value');
     }
 
-    editDisplayName = (newDisplayName) => {
-        var user = this.auth.currentUser;
+    editDisplayName = (newDisplayName, uid) => {
+      const url = "https://us-central1-quickeducation442.cloudfunctions.net/" + 
+        `displayNameExists?displayName=${newDisplayName}&uid=${uid}`;
+      
+      return fetch(url, {
+        method: 'Post',
+        mode: 'cors',
+        headers:{
+            'Content-Type': 'text/plain'
+        }
+      })
+    .then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            throw new Error("Invalid Set ID.");
+        }
+    })
 
-        var updates = {};
-        updates['/users/' + user.uid + '/displayName'] = newDisplayName;
-
-        return this.db.ref().update(updates);
     }
 
     getUserScoreNameAndEmail = (uid) => {

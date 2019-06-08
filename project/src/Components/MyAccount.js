@@ -44,7 +44,7 @@ const DEFAULT_STATE = {
     displayName:"",
     score: 0
   },
-  editEmail: false,
+  editDisplayName: false,
   isLoading: true,
 }
 
@@ -68,21 +68,33 @@ class MyAccountBase extends Component {
           isLoading: false
         })
       })
-      .catch(error => alert("Failed to download user data."))
+      .catch(error => alert("Failed to download user data. " + error))
   }
   
   toggleEditDisplayName = () => {
     this.setState({ 
-      editEmail: !this.state.editEmail
+      editDisplayName: !this.state.editDisplayName
     });  
   }
 
   handleSubmit = (e) => {
     e.preventDefault(); 
-    let newDisplayName = e.target.email.value;  
-    this.props.firebase.editDisplayName(newDisplayName);
-    this.updateState(); 
-    this.toggleEditDisplayName(); 
+    this.setState({isLoading:true});
+    let newDisplayName = e.target.email.value;
+    this.props.firebase.editDisplayName(newDisplayName, this.props.userUID)
+    .then((response) => {
+      if (response) {
+        alert("Display Name: "+ newDisplayName + " Already Exists.");
+        this.setState({isLoading:false})
+      } else {
+        this.updateState();
+        this.toggleEditDisplayName();
+      }
+    })
+    .catch(error => {
+      alert("Connection Error, try refreshing your page.");
+      this.setState({isLoading:false})
+    })
   }
 
   handleDelete = (e) => {
@@ -96,7 +108,7 @@ class MyAccountBase extends Component {
         <LoadingScreen />
       )
     }
-    const editClicked = this.state.editEmail;
+    const editClicked = this.state.editDisplayName;
     let emailInput; 
     // Conditional Rendering: 
     // Renders the edit email form if edit button is clicked 
