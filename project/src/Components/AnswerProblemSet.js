@@ -3,6 +3,7 @@ import { withFirebase } from './Firebase';
 import { Redirect } from 'react-router-dom';
 import { AuthUserContext } from './Session';
 import NavbarPage from './Navbar';
+import LoadingScreen from './LoadingScreen';
 
 class AnswerProblemSetPage extends Component {
     render() {
@@ -67,7 +68,14 @@ class AnswerProblemSetBase extends Component {
                 isLoading: false
             }));
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            console.log(error)
+            alert('You must enter a valid problem set ID');
+            this.setState(({
+                isLoading: false,
+                error: error
+            }));
+        });
     }
 
     handleChange = (e) => {
@@ -122,19 +130,16 @@ class AnswerProblemSetBase extends Component {
         }
         if (this.state.isLoading) {
             return (
-                <div className="d-flex justify-content-center mt-4">
-                    <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </div>
-                </div>
+                <LoadingScreen />
             );
         } else if (this.state.error) {
             return (
-                <div>
-                    <h2>Uh oh you ran into an error</h2>
-                    <p>{this.state.error}</p>
-                </div>
-            );
+                <Redirect 
+                    to={{
+                        pathname:"/home",
+                    }}
+                />
+            )
         }
         return (
             <div>

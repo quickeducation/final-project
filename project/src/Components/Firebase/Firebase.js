@@ -24,7 +24,7 @@ class Firebase {
           this.auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;
-            if (errorCode == 'auth/weak-password') {
+            if (errorCode === 'auth/weak-password') {
               alert('The password is too weak.');
               reject("The password is too weak.")
             } else {
@@ -32,8 +32,9 @@ class Firebase {
               reject(errorMessage);
             }
             console.log(error);
+          }).then(() => {
+            resolve(true)
           });
-          resolve(true);
         });
     }
 
@@ -52,8 +53,9 @@ class Firebase {
           }
           reject(errorMsg);
           console.log(error);
+        }).then(() => {
+          resolve(true)
         });
-        resolve(true)
       });
     }
 
@@ -147,14 +149,32 @@ class Firebase {
         return this.db.ref('user-sets/').once('value');
     }
 
-    editUsername = (newUsername) => {
-        var user = this.auth.currentUser;
+    editDisplayName = (newDisplayName, uid) => {
+      const url = "https://us-central1-quickeducation442.cloudfunctions.net/" + 
+        `displayNameExists?displayName=${newDisplayName}&uid=${uid}`;
+      
+      return fetch(url, {
+        method: 'Post',
+        mode: 'cors',
+        headers:{
+            'Content-Type': 'text/plain'
+        }
+      })
+    .then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            throw new Error("Invalid Set ID.");
+        }
+    })
 
-        var updates = {};
-        updates['/users/' + user.uid + '/email'] = newUsername;
-
-        return this.db.ref().update(updates);
     }
+
+    getUserScoreNameAndEmail = (uid) => {
+      return this.db.ref(`users/${uid}`).once('value');
+    }
+
+
 
 }
 

@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import {AuthUserContext} from './Session';
 import NavbarPage from './Navbar';
 
+
 const CreateProblemSetPage = () => (
     <AuthUserContext.Consumer> 
             { authUser => {

@@ -31,3 +31,19 @@
     transform: rotate(360deg);
   }
 }
+
+
+.createlogin {
+  text-align: center;
+  margin-top: 150px;
+}
+
+.accForm {
+  margin-top: 50px;
+}
+
+#signupButton, #loginButton {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+}

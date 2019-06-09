@@ -7,7 +7,6 @@ import {Redirect } from 'react-router-dom';
 const LoginPage = () => (
     <div id="login">
         <NavbarPage />
-        <p>Enter your email and password below to sign in</p>
         <LoginForm />
     </div>
   );
@@ -17,6 +16,7 @@ const INITIAL_STATE = {
     password: '',
     error: null,
     isLoggedIn:false,
+    isLoading: false,
 };
   
     
@@ -28,7 +28,8 @@ class LoginFormBase extends Component {
           email: '',
           password: '',
           error: null,
-          isLoggedIn: isSignedIn
+          isLoggedIn: isSignedIn,
+          isLoading: false,
         };
       }
 
@@ -36,12 +37,14 @@ class LoginFormBase extends Component {
         let isSignedIn = this.props.firebase.isSignedIn();
         if (isSignedIn) {
           this.setState({
-            isLoggedIn: isSignedIn
+            isLoggedIn: isSignedIn,
+            isLoading: false,
           });
         }
       }
     
       isValidEmail = email => {
+        // eslint-disable-next-line
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
       }
@@ -80,7 +83,10 @@ class LoginFormBase extends Component {
           );
         } else {
           return (
-            <form onSubmit={this.onSubmit}>
+            <div class="createlogin" id="login">
+              <h1>Log in</h1>
+              <p>Enter your email and password below to sign in</p>
+              <form class="accForm" onSubmit={this.onSubmit}>
                 <input
                 name="email"
                 value={email}
@@ -95,9 +101,10 @@ class LoginFormBase extends Component {
                 type="password"
                 placeholder="Password"
                 />
-                <button id="login" type="submit">Log in</button>
+                <button id="loginButton" type="submit">Log in</button>
                 {error && <p>{error.message}</p>}
-            </form>
+              </form>
+            </div>
             );
         }
         
