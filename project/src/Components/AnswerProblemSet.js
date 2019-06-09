@@ -167,7 +167,7 @@ const QuestionsAndAnswerInputs = (props) => {
                         <p className="m-0 question">{props.questions[index]}</p>
                     </div>
                     <div className="col">
-                        <input type="text" className="form-control" placeholder="Answer" rows="2" maxLength="120"
+                        <input type="text" className="form-control" placeholder="Answer" rows="2" minLength="1" maxLength="120"
                             defaultValue={answer} 
                             data-id={index} name={answerID} id={answerID} />
                     </div>
