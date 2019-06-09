@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { withFirebase } from '../Components/Firebase/context';
+import { withRouter } from 'react-router-dom';
 
 
 import {
@@ -45,6 +46,18 @@ class NavbarFeatures extends Component {
         }
     }
 
+    handleClick(event) {
+        let currentUser = this.props.firebase.auth.currentUser;
+        if (currentUser) {
+            this.props.firebase.doSignOut().then(() => {
+                this.props.history.push('/home');
+                return true;
+            })
+        } else {
+            // No user is signed in.
+        };
+    }
+
 
     render() {
         let user = this.state.isUserLoggedIn;
@@ -75,7 +88,7 @@ class NavbarFeatures extends Component {
                         <NavLink tag={Link} to="/leaderboards">Leaderboards</NavLink>
                     </NavItem>
                     {user ? <NavItem>
-                                <NavLink id="signout" tag={Link} to="/signout">Log Out</NavLink>
+                                <NavLink id="signout" onClick={()=> this.handleClick()}>Log Out</NavLink>
                             </NavItem> : <div></div>}
                 </Nav>
                 </Collapse>
@@ -87,6 +100,6 @@ class NavbarFeatures extends Component {
 }
 
 
-const NavbarComponent = withFirebase(NavbarFeatures);
+const NavbarComponent = withRouter(withFirebase(NavbarFeatures));
 
 export default NavbarPage

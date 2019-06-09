@@ -32,8 +32,9 @@ class Firebase {
               reject(errorMessage);
             }
             console.log(error);
+          }).then(() => {
+            resolve(true)
           });
-          resolve(true);
         });
     }
 
@@ -52,8 +53,9 @@ class Firebase {
           }
           reject(errorMsg);
           console.log(error);
+        }).then(() => {
+          resolve(true)
         });
-        resolve(true)
       });
     }
 

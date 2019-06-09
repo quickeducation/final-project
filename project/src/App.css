@@ -39,3 +39,19 @@
   top: calc( 50% - ( px / 2) );
   right: calc( 50% - ( px / 2) );
 }
+
+
+.createlogin {
+  text-align: center;
+  margin-top: 150px;
+}
+
+.accForm {
+  margin-top: 50px;
+}
+
+#signupButton, #loginButton {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+}

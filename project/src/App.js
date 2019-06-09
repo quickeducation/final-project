@@ -29,7 +29,6 @@ import CreateProblemSetPage from './Components/CreateProblemSet';
 import AnswerProblemSetPage from './Components/AnswerProblemSet';
 import SubmittedAnswersPage from './Components/SubmittedAnswers';
 import ReviewSetPage from './Components/ReviewProblemSet'
-import SignOut from './Components/Signout';
 import { withAuthentication, AuthUserContext } from './Components/Session';
 
 
@@ -45,7 +44,6 @@ const App = () => (
                   <Route exact path='/answerset' component ={AnswerProblemSetPage} />
                   <Route exact path='/submitted' component={SubmittedAnswersPage} />
                   <Route exact path='/reviewset' component={ReviewSetPage} />
-                  <Route exact path='/signout' component={SignOut} />
                   <Route exact path='/leaderboards' component={LeaderboardsPage} />
                   <Route component={Home} />
               </Switch>
@@ -56,7 +54,7 @@ export default withAuthentication(App);
 
 
 // Main page for app
-class Home extends Component {
+export class Home extends Component {
 
   render() {
     return (

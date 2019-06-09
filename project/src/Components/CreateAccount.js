@@ -6,7 +6,6 @@ import NavbarFeatures from '../Components/Navbar';
 const CreateAccountPage = () => (
     <div id="login">
         <NavbarFeatures />
-        <p>Enter your email and password below to sign in</p>
         <CreateAccountForm />
     </div>
   );
@@ -25,7 +24,8 @@ class CreateAccountFormBase extends Component {
       }
     
       isValidEmail = email => {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        // eslint-disable-next-line
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
       }
     
@@ -41,7 +41,7 @@ class CreateAccountFormBase extends Component {
           .then(authUser => {
               this.setState({ ...INITIAL_STATE });
               console.log("signed in redirect them....");
-              this.props.history.push('/login'); 
+              this.props.history.push('/home'); 
               return true;
           })
           .catch(error => {
@@ -57,29 +57,30 @@ class CreateAccountFormBase extends Component {
     
       render() {
         const {email, password, error} = this.state;
-        // let currentUser = this.props.firebase.auth.currentUser;
-        // if (currentUser) {
-        //     this.props.history.push('/home');
-        // }
+        
         return (
-        <form onSubmit={this.onSubmit}>
-            <input
-            name="email"
-            value={email}
-            onChange={this.onChange}
-            type="text"
-            placeholder="Email Address"
-            />
-            <input
-            name="password"
-            value={password}
-            onChange={this.onChange}
-            type="password"
-            placeholder="Password"
-            />
-            <button id="signUp" type="submit">Sign Up</button>
-            {error && <p>{error.message}</p>}
-        </form>
+          <div class="createlogin" id="createAcc">
+            <h1>Sign up</h1>
+            <p>Enter your email and password below to sign up</p>
+            <form class="accForm" onSubmit={this.onSubmit}>
+              <input
+              name="email"
+              value={email}
+              onChange={this.onChange}
+              type="text"
+              placeholder="Email Address"
+              />
+              <input
+              name="password"
+              value={password}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Password"
+              />
+              <button id="signupButton" type="submit">Sign Up</button>
+              {error && <p>{error.message}</p>}
+            </form>
+          </div>
         );
       }
 }
