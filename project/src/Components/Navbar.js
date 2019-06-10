@@ -84,9 +84,12 @@ class NavbarFeatures extends Component {
                     {user ? <NavItem>
                                 <NavLink tag={Link} to="/myAccount">My Account</NavLink>
                             </NavItem> : <div></div>}
-                    <NavItem>
-                        <NavLink tag={Link} to="/leaderboards">Leaderboards</NavLink>
-                    </NavItem>
+                    {user ? <NavItem>
+                                <NavLink tag={Link} to="/leaderboards">Leaderboards</NavLink>
+                            </NavItem> : <div></div>}
+                    {!user ? <NavItem>
+                                <NavLink tag={Link} to="/login">Leaderboards</NavLink>
+                            </NavItem> : <div></div>}
                     {user ? <NavItem>
                                 <NavLink id="signout" onClick={()=> this.handleClick()}>Log Out</NavLink>
                             </NavItem> : <div></div>}

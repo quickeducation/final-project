@@ -62,15 +62,13 @@ class CreateAccountFormBase extends Component {
           <div class="createlogin" id="createAcc">
             <h1>Sign up</h1>
             <p>Enter your email and password below to sign up</p>
-            <form class="accForm" onSubmit={this.onSubmit} accept-charset="UTF-8">
+            <form class="accForm" onSubmit={this.onSubmit}>
               <input
               name="email"
               value={email}
               onChange={this.onChange}
               type="text"
               placeholder="Email Address"
-              maxlength="60"
-              minlength="1"
               />
               <input
               name="password"
@@ -78,8 +76,6 @@ class CreateAccountFormBase extends Component {
               onChange={this.onChange}
               type="password"
               placeholder="Password"
-              maxlength="60"
-              minlength="1"
               />
               <button id="signupButton" type="submit">Sign Up</button>
               {error && <p>{error.message}</p>}

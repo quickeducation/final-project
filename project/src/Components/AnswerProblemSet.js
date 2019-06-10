@@ -68,14 +68,7 @@ class AnswerProblemSetBase extends Component {
                 isLoading: false
             }));
         })
-        .catch(error => {
-            console.log(error)
-            alert('You must enter a valid problem set ID');
-            this.setState(({
-                isLoading: false,
-                error: error
-            }));
-        });
+        .catch(error => console.log(error));
     }
 
     handleChange = (e) => {
@@ -134,12 +127,11 @@ class AnswerProblemSetBase extends Component {
             );
         } else if (this.state.error) {
             return (
-                <Redirect 
-                    to={{
-                        pathname:"/home",
-                    }}
-                />
-            )
+                <div>
+                    <h2>Uh oh you ran into an error</h2>
+                    <p>{this.state.error}</p>
+                </div>
+            );
         }
         return (
             <div>
@@ -167,7 +159,7 @@ const QuestionsAndAnswerInputs = (props) => {
                         <p className="m-0 question">{props.questions[index]}</p>
                     </div>
                     <div className="col">
-                        <input type="text" className="form-control" placeholder="Answer" rows="2" minLength="1" maxLength="120"
+                        <input type="text" className="form-control" placeholder="Answer" rows="2" maxLength="120"
                             defaultValue={answer} 
                             data-id={index} name={answerID} id={answerID} />
                     </div>
