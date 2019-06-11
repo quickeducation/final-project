@@ -81,6 +81,11 @@ class MyAccountBase extends Component {
     e.preventDefault(); 
     this.setState({isLoading:true});
     let newDisplayName = e.target.email.value;
+    if ((newDisplayName.length < 1) || (newDisplayName.length > 60)) {
+        alert("Display name must be more than 1 characters and less than 60");
+        this.setState({isLoading:false});
+        return;
+    }
     this.props.firebase.editDisplayName(newDisplayName, this.props.userUID)
     .then((response) => {
       if (response) {
