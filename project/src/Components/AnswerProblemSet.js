@@ -58,6 +58,15 @@ class AnswerProblemSetBase extends Component {
     }
 
     componentDidMount() {
+        if (this.props.setID.includes('.') || this.props.setID.includes('#') || this.props.setID.includes('$') 
+            || this.props.setID.includes('[') || this.props.setID.includes(']')) {
+          alert('Invalid ID');
+          this.setState(({
+                error: 'Invalid characters in id',
+                isLoading: false
+            }));
+          return;
+        }
         Promise.all(this.props.firebase.getTitleAndQuestions(this.props.setID))
         .then((response) => {
             let answers = Array(response[1].length).fill('');
