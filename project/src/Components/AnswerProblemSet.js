@@ -68,7 +68,14 @@ class AnswerProblemSetBase extends Component {
                 isLoading: false
             }));
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            console.log(error)
+            alert('Problem set was not found');
+            this.setState(({
+                error: error,
+                isLoading: false
+            }))
+        });
     }
 
     handleChange = (e) => {
@@ -84,6 +91,7 @@ class AnswerProblemSetBase extends Component {
         for (let i = 0; i < answers.length; i++) {
             if (!this.isValidInput(answers[i])) {
                 alert("Question " + (i + 1) + "'s length is invalid.");
+                this.setState({isLoading:false});
                 return;
             }
         }
@@ -125,12 +133,14 @@ class AnswerProblemSetBase extends Component {
             return (
                 <LoadingScreen />
             );
-        } else if (this.state.error) {
+        } 
+        else if (this.state.error) {
             return (
-                <div>
-                    <h2>Uh oh you ran into an error</h2>
-                    <p>{this.state.error}</p>
-                </div>
+                <Redirect 
+                    to={{
+                        pathname:"/home",
+                    }}
+                />
             );
         }
         return (
@@ -159,7 +169,7 @@ const QuestionsAndAnswerInputs = (props) => {
                         <p className="m-0 question">{props.questions[index]}</p>
                     </div>
                     <div className="col">
-                        <input type="text" className="form-control" placeholder="Answer" rows="2" maxLength="120"
+                        <input type="text" className="form-control" placeholder="Answer" rows="2" minLength="1" maxLength="120"
                             defaultValue={answer} 
                             data-id={index} name={answerID} id={answerID} />
                     </div>

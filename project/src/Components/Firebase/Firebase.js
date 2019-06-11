@@ -122,15 +122,8 @@ class Firebase {
     deleteUser = () => {
         var user = this.auth.currentUser;
         if (user) {
-            user.delete().then(function() {
-              let ref = this.db.ref('users/' + user.uid)
-              ref.remove()
-                  .then(function() {
-                    alert("Remove succeeded.")
-                  })
-                  .catch(function(error) {
-                    alert("Remove failed: " + error.message)
-                  });
+            user.delete().then(res => {
+              alert('User removed');
             }).catch(function(error) {
               alert('Could not delete the user');
             });

@@ -131,7 +131,7 @@ class CreateProblemSetBase extends Component {
             <form id="set-form" acceptCharset="UTF-8" onChange={this.handleChange}>
                 <div className="form-row form-group">
                     <div className="col">
-                        <input type="text" id="title" className="form-control" placeholder="Problem Set Title" rows="2" maxLength="60"/>
+                        <input type="text" id="title" className="form-control" placeholder="Problem Set Title" rows="2" minLength="1" maxLength="60"/>
                     </div>
                 </div>
                 <div className="d-flex justify-content-around">
@@ -160,12 +160,12 @@ const QuestionAnswerInputs = (props) => {
                 <div className="form-row form-group" key={questionNumber}>
                     <label className="col-form-label">{questionNumber}.)</label>
                     <div className="col">
-                        <input type="text" className="form-control" placeholder="Question" rows="2" maxLength="120"
+                        <input type="text" className="form-control" placeholder="Question" rows="2" minLength="1" maxLength="120"
                             value={props.questionAnswerPairs[index].question} 
                             data-id={index} name={questionID} id={questionID} />
                     </div>
                     <div className="col">
-                        <input type="text" className="form-control" placeholder="Answer" rows="2" maxLength="120"
+                        <input type="text" className="form-control" placeholder="Answer" rows="2" minLength="1" maxLength="120"
                             value={props.questionAnswerPairs[index].answer} 
                             data-id={index} name={answerID} id={answerID} />
                     </div>
