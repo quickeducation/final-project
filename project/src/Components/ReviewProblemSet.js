@@ -65,17 +65,17 @@ export default class ReviewSetPage extends Component {
                       </div>
                     );
                   })}
-                  <Link
+                  
+                    <button type="button" className="btn btn-success" style={{float:'right'}}>
+                      <Link style={{color: 'white'}}
                     className="d-flex flex-row-reverse"
                     to={{
                       pathname: "/answerset",
                       search: "?setID=" + this.props.location.state.setID
                     }}
-                  >
-                    <button type="button" className="btn btn-success">
-                      Try Again!
+                    >Try Again!</Link>
                     </button>
-                  </Link>
+                  
                 </main>
               </div>
             );
