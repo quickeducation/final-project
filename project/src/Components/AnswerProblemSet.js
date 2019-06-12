@@ -10,8 +10,8 @@ class AnswerProblemSetPage extends Component {
         let setID = this.getQueryStringParams(this.props.location.search).setID;
         return (
             <AuthUserContext.Consumer> 
-            { authUser => {
-                if (authUser) {
+            { context => {
+                if (context.authUser) {
                     return (
                     <div>
                         <NavbarPage />
@@ -21,8 +21,12 @@ class AnswerProblemSetPage extends Component {
                     </div>
                     )
                 }
-                return <Redirect to="/"/>
+                else if (!context.stateSet) {
+                    return <LoadingScreen />;
+                } else {
+                    return <Redirect to="/"/>
                 }
+            }
             }
             </AuthUserContext.Consumer> 
         )

@@ -3,25 +3,30 @@ import { withFirebase } from './Firebase';
 import { Link, Redirect } from 'react-router-dom';
 import {AuthUserContext} from './Session';
 import NavbarPage from './Navbar';
+import LoadingScreen from './LoadingScreen';
 
 
 const CreateProblemSetPage = () => (
     <AuthUserContext.Consumer> 
-            { authUser => {
+            { context => {
+                let authUser = context.authUser;
                 if (authUser) {
                     return (
-                    <div>
-                        <NavbarPage />
-                        <main className="container">
-                            <h2>Create A Problem Set</h2>
-                            <CreateProblemSet />
-                        </main>
-                    </div>
+                        <div>
+                            <NavbarPage />
+                            <main className="container">
+                                <h2>Create A Problem Set</h2>
+                                <CreateProblemSet user={authUser}/>
+                            </main>
+                        </div>
                     )
-                }
-                return <Redirect to="/"/>
+                } else if (!context.stateSet) {
+                    return <LoadingScreen />;
+                } else {
+                    return <Redirect to="/"/>
                 }
             }
+        }
     </AuthUserContext.Consumer> 
 )
 

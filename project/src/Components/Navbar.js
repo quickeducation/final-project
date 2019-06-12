@@ -17,8 +17,8 @@ import {
 
 const NavbarPage = () => (
     <AuthUserContext.Consumer> 
-    { authUser => 
-        <NavbarComponent user={authUser}/>
+    { context => 
+        <NavbarComponent user={context.authUser}/>
     }
       </AuthUserContext.Consumer>
     

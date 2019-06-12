@@ -2,6 +2,7 @@ import React, {Component}  from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { AuthUserContext } from './Session';
 import NavbarPage from './Navbar';
+import LoadingScreen from './LoadingScreen';
 
 export default class SubmittedAnswersPage extends Component {
     constructor(props) {
@@ -36,7 +37,8 @@ export default class SubmittedAnswersPage extends Component {
         percentage = Math.floor(percentage);
         return (
             <AuthUserContext.Consumer> 
-            { authUser => {
+            { context => {
+                let authUser = context.authUser;
                 if (authUser) {
                     return (
                         <div>
@@ -72,8 +74,11 @@ export default class SubmittedAnswersPage extends Component {
                         </main>
                      </div>
                     )
+                } else if (!context.stateSet) {
+                    return <LoadingScreen />;
+                } else {
+                    return <Redirect to="/"/>
                 }
-                return <Redirect to="/"/>
                 }
             }
             </AuthUserContext.Consumer>

@@ -167,7 +167,7 @@ class Firebase {
       return this.db.ref(`users/${uid}`).once('value');
     }
 
-
+    
 
 }
 

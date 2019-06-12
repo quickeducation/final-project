@@ -59,8 +59,8 @@ export class Home extends Component {
   render() {
     return (
         <AuthUserContext.Consumer> 
-        { authUser => 
-            authUser ? <HomePage /> : <LandingPage />
+        { context => 
+            context.authUser ? <HomePage /> : <LandingPage />
         }
           </AuthUserContext.Consumer>
       );

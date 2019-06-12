@@ -20,7 +20,8 @@ class MyAccountPage extends Component {
   render() {
     return (
       <AuthUserContext.Consumer>
-      { authUser => {
+      { context => {
+        let authUser = context.authUser;
         if (authUser) {
           return (
             <div id="myAccount">
@@ -29,8 +30,11 @@ class MyAccountPage extends Component {
               <MyAccount userUID={authUser.uid}/>
             </div>
           );
+        } else if (!context.stateSet) {
+          return <LoadingScreen />;
+        } else {
+            return <Redirect to="/"/>
         }
-        return <Redirect to="/"/>
       }
     }
       </AuthUserContext.Consumer>

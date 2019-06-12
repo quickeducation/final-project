@@ -4,6 +4,7 @@ import { AuthUserContext } from "./Session";
 import NavbarPage from "./Navbar";
 import cancelImg from "../img/cancel.png";
 import checkImg from "../img/checked.png";
+import LoadingScreen from './LoadingScreen';
 
 export default class ReviewSetPage extends Component {
   
@@ -15,7 +16,8 @@ export default class ReviewSetPage extends Component {
 
     return (
       <AuthUserContext.Consumer>
-        {authUser => {
+        {context => {
+          let authUser = context.authUser
           if (authUser) {
             return (
               <div>
@@ -79,8 +81,11 @@ export default class ReviewSetPage extends Component {
                 </main>
               </div>
             );
+          } else if (!context.stateSet) {
+            return <LoadingScreen />;
+          } else {
+            return <Redirect to="/"/>
           }
-          return <Redirect to="/" />;
         }}
       </AuthUserContext.Consumer>
     );

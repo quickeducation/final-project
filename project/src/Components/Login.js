@@ -83,10 +83,10 @@ class LoginFormBase extends Component {
           );
         } else {
           return (
-            <div class="createlogin" id="login">
+            <div className="createlogin" id="login">
               <h1>Log in</h1>
               <p>Enter your email and password below to sign in</p>
-              <form class="accForm" onSubmit={this.onSubmit}>
+              <form className="accForm" onSubmit={this.onSubmit}>
                 <input
                 name="email"
                 value={email}
