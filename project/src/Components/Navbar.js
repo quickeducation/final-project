@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { withFirebase } from '../Components/Firebase/context';
 import { withRouter } from 'react-router-dom';
+import {  AuthUserContext } from '../Components/Session';
 
 
 import {
@@ -15,7 +16,12 @@ import {
 
 
 const NavbarPage = () => (
-    <NavbarComponent />
+    <AuthUserContext.Consumer> 
+    { authUser => 
+        <NavbarComponent user={authUser}/>
+    }
+      </AuthUserContext.Consumer>
+    
 )
 
 
@@ -37,15 +43,6 @@ class NavbarFeatures extends Component {
         });
     }
 
-    componentWillMount() {
-        let isLoggedIn = this.props.firebase.isSignedIn();
-        if (isLoggedIn) {
-            this.setState({
-                isUserLoggedIn : isLoggedIn
-            })
-        }
-    }
-
     handleClick(event) {
         let currentUser = this.props.firebase.auth.currentUser;
         if (currentUser) {
@@ -60,7 +57,8 @@ class NavbarFeatures extends Component {
 
 
     render() {
-        let user = this.state.isUserLoggedIn;
+        let user = this.props.user;
+        console.log(user)
         return (
             <nav>
                 <Navbar color="light" light expand="md">

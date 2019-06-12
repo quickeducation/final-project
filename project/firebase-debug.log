@@ -1,0 +1,38 @@
+[debug] [2019-06-07T04:44:59.112Z] ----------------------------------------------------------------------
+[debug] [2019-06-07T04:44:59.113Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Matth\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
+[debug] [2019-06-07T04:44:59.114Z] CLI Version:   6.11.0
+[debug] [2019-06-07T04:44:59.114Z] Platform:      win32
+[debug] [2019-06-07T04:44:59.114Z] Node Version:  v11.13.0
+[debug] [2019-06-07T04:44:59.114Z] Time:          Thu Jun 06 2019 21:44:59 GMT-0700 (Pacific Daylight Time)
+[debug] [2019-06-07T04:44:59.114Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-06-07T04:44:59.122Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-06-07T04:44:59.122Z] > authorizing via signed-in user
+[debug] [2019-06-07T04:44:59.122Z] [iam] checking project quickeducation442 for permissions ["firebase.projects.get"]
+[debug] [2019-06-07T04:44:59.123Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-06-07T04:44:59.124Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-06-07T04:45:04.956Z] <<< HTTP RESPONSE 200
+[debug] [2019-06-07T04:45:04.966Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/quickeducation442:testIamPermissions  
+
+[debug] [2019-06-07T04:45:27.222Z] Error: connect ETIMEDOUT 172.217.3.170:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1087:14)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 172.217.3.170:443
+[debug] [2019-06-07T04:45:41.526Z] ----------------------------------------------------------------------
+[debug] [2019-06-07T04:45:41.528Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Matth\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
+[debug] [2019-06-07T04:45:41.528Z] CLI Version:   6.11.0
+[debug] [2019-06-07T04:45:41.528Z] Platform:      win32
+[debug] [2019-06-07T04:45:41.529Z] Node Version:  v11.13.0
+[debug] [2019-06-07T04:45:41.529Z] Time:          Thu Jun 06 2019 21:45:41 GMT-0700 (Pacific Daylight Time)
+[debug] [2019-06-07T04:45:41.529Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-06-07T04:45:41.537Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-06-07T04:45:41.538Z] > authorizing via signed-in user
+[debug] [2019-06-07T04:45:41.538Z] [iam] checking project quickeducation442 for permissions ["firebase.projects.get"]
+[debug] [2019-06-07T04:45:41.539Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/quickeducation442:testIamPermissions  
+
+[debug] [2019-06-07T04:46:02.567Z] Error: connect ETIMEDOUT 172.217.3.170:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1087:14)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 172.217.3.170:443
